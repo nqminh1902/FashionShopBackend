@@ -1,0 +1,82 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "FashionShopBL/1.0.0": {
+        "dependencies": {
+          "FashionShopCommon": "1.0.0",
+          "FashionShopDL": "1.0.0"
+        },
+        "runtime": {
+          "FashionShopBL.dll": {}
+        }
+      },
+      "Dapper/2.0.123": {
+        "runtime": {
+          "lib/net5.0/Dapper.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.123.33578"
+          }
+        }
+      },
+      "MySqlConnector/2.2.2": {
+        "runtime": {
+          "lib/net6.0/MySqlConnector.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.2.2.0"
+          }
+        }
+      },
+      "FashionShopCommon/1.0.0": {
+        "runtime": {
+          "FashionShopCommon.dll": {}
+        }
+      },
+      "FashionShopDL/1.0.0": {
+        "dependencies": {
+          "Dapper": "2.0.123",
+          "FashionShopCommon": "1.0.0",
+          "MySqlConnector": "2.2.2"
+        },
+        "runtime": {
+          "FashionShopDL.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FashionShopBL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Dapper/2.0.123": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
+      "path": "dapper/2.0.123",
+      "hashPath": "dapper.2.0.123.nupkg.sha512"
+    },
+    "MySqlConnector/2.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rhy856Z1LrSblkC//OkvLIXBuiLhwlBAwDBrdHJEkIhu3eZRCQQg9sDNpt7eEVXtIFAMyEXkaky0bYpoGKps3g==",
+      "path": "mysqlconnector/2.2.2",
+      "hashPath": "mysqlconnector.2.2.2.nupkg.sha512"
+    },
+    "FashionShopCommon/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "FashionShopDL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

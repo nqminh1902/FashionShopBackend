@@ -1,0 +1,17 @@
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopBL.deps.json
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopBL.dll
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopBL.pdb
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopCommon.dll
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopDL.dll
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopCommon.pdb
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\bin\Debug\net6.0\FashionShopDL.pdb
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.csproj.AssemblyReference.cache
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.AssemblyInfoInputs.cache
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.AssemblyInfo.cs
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.csproj.CoreCompileInputs.cache
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.csproj.CopyComplete
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.dll
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\refint\FashionShopBL.dll
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\FashionShopBL.pdb
+D:\Fashiondev\backend2\FashionShop\FashionShopBL\obj\Debug\net6.0\ref\FashionShopBL.dll

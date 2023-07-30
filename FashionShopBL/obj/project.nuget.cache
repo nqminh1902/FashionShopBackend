@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Fo+iP1gdyhSoATRD0RdSsoGyiTGAj1HMBRFaBz46YnHcWtKr6cxa9lGSiZn6Qpw/qmvURKd5qWDf9DqDtoWbAQ==",
+  "success": true,
+  "projectFilePath": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShopBL\\FashionShopBL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\mysqlconnector\\2.2.2\\mysqlconnector.2.2.2.nupkg.sha512"
+  ],
+  "logs": []
+}
