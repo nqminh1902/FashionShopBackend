@@ -112,6 +112,7 @@ namespace FashionShopBL.BaseBL
             };
         }
         #endregion
+
     }
 }    
 

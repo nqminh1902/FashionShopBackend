@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\Uploads\\Product\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg\\image.png",
+      "PackagePath": "staticwebassets\\Uploads\\Product\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg\\image.png"
+    },
+    {
+      "Id": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\Uploads\\Product\\5505-4.png\\image.png",
+      "PackagePath": "staticwebassets\\Uploads\\Product\\5505-4.png\\image.png"
+    },
+    {
+      "Id": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg",
+      "PackagePath": "staticwebassets\\products\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg"
+    },
+    {
+      "Id": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\5505-3.png",
+      "PackagePath": "staticwebassets\\products\\5505-3.png"
+    },
+    {
+      "Id": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\5505-4.png",
+      "PackagePath": "staticwebassets\\products\\5505-4.png"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.FashionShopAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.FashionShopAPI.props",
+      "PackagePath": "build\\FashionShopAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.FashionShopAPI.props",
+      "PackagePath": "buildMultiTargeting\\FashionShopAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.FashionShopAPI.props",
+      "PackagePath": "buildTransitive\\FashionShopAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

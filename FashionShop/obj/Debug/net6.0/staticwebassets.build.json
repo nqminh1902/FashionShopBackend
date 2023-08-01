@@ -1,11 +1,105 @@
 {
   "Version": 1,
-  "Hash": "6uPXPmrn0jNR2EqYzB/kniYEp3VWjRjMu+c8AF1UnEk=",
+  "Hash": "/TdX94UlTvX8E6Xglt4RDg8gxxQ/T7RbACJxSgTUDzw=",
   "Source": "FashionShopAPI",
   "BasePath": "_content/FashionShopAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "FashionShopAPI\\wwwroot",
+      "Source": "FashionShopAPI",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg",
+      "SourceId": "FashionShopAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "RelativePath": "products/22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg"
+    },
+    {
+      "Identity": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\5505-3.png",
+      "SourceId": "FashionShopAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "RelativePath": "products/5505-3.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\5505-3.png"
+    },
+    {
+      "Identity": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\products\\5505-4.png",
+      "SourceId": "FashionShopAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "RelativePath": "products/5505-4.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\5505-4.png"
+    },
+    {
+      "Identity": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\Uploads\\Product\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg\\image.png",
+      "SourceId": "FashionShopAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "RelativePath": "Uploads/Product/22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg/image.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Product\\22580bbe430389211595ac4c9632acb5_-_Untitled_2.jpeg\\image.png"
+    },
+    {
+      "Identity": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\Uploads\\Product\\5505-4.png\\image.png",
+      "SourceId": "FashionShopAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShop\\wwwroot\\",
+      "BasePath": "_content/FashionShopAPI",
+      "RelativePath": "Uploads/Product/5505-4.png/image.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Product\\5505-4.png\\image.png"
+    }
+  ]
 }

@@ -8,5 +8,10 @@ namespace FashionShopCommon
 {
     public class PagingRequest
     {
+        public int PageSize { get; set; }
+        public int PageIndex { get; set; } = 0;
+
+        public string? SearchValue { get; set; }
+        public object? CustomParam { get; set; }
     }
 }

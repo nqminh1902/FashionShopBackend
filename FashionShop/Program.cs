@@ -1,4 +1,5 @@
-﻿using FashionShopBL.BaseBL;
+﻿using FashionShopBL;
+using FashionShopBL.BaseBL;
 using FashionShopDL;
 using FashionShopDL.BaseDL;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles();
 
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 

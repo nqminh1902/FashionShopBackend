@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Imagekit" Version="4.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FashionShopCommon\FashionShopCommon.csproj" />
     <ProjectReference Include="..\FashionShopDL\FashionShopDL.csproj" />
   </ItemGroup>
