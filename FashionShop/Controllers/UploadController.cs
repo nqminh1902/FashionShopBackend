@@ -3,6 +3,7 @@ using Imagekit.Sdk;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FashionShopCommon;
+using System.Security.Policy;
 
 namespace FashionShopAPI.Controllers
 {
@@ -23,25 +24,53 @@ namespace FashionShopAPI.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        public async Task<IActionResult> UploadImage(List<IFormFile> files)
         {
             try
             {
-                if (file == null || file.Length == 0)
+                if (files.Count > 0)
                 {
-                    return BadRequest("Không tìm thấy file hoặc file rỗng.");
+                    var url = new List<string>();
+                    foreach (IFormFile file in files)
+                    {
+
+                        // Gọi ImageKitService để upload ảnh lên ImageKit
+                        //var response = await UploadImageAsync(file);
+                        // Chuyển IFormFile sang dạng byte array
+                        byte[] fileBytes;
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(memoryStream);
+                            fileBytes = memoryStream.ToArray();
+                        }
+
+                        // Tạo đối tượng FileCreateRequest để truyền vào phương thức UploadAsync
+                        var fileCreateRequest = new FileCreateRequest()
+                        {
+                            file = fileBytes,
+                            fileName = file.FileName,
+                            folder = "/products/"
+                        };
+
+                        // Thực hiện yêu cầu upload ảnh lên ImageKit
+                        var response = await _imageKitClient.UploadAsync(fileCreateRequest);
+                        url.Add(response.thumbnailUrl);
+                    }
+                    return StatusCode(StatusCodes.Status200OK, url);
                 }
-
-                // Gọi ImageKitService để upload ảnh lên ImageKit
-                var response = await UploadImageAsync(file);
-
-                if (response == null)
+                else
                 {
-                    return BadRequest("Lỗi khi upload ảnh.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                    {
+                        ErrorCode = ErrorCode.Exception,
+                        DevMsg = Resources.DevMsg_Exception,
+                        UserMsg = Resources.UserMsg_Exception,
+                        MoreInfo = Resources.MoreInfo_Exception,
+                        TraceId = HttpContext.TraceIdentifier
+                    });
                 }
 
                 // Trả về đường dẫn (URL) của ảnh đã upload
-                return StatusCode(StatusCodes.Status200OK, response);
             }
             catch (Exception ex)
             {
@@ -54,39 +83,6 @@ namespace FashionShopAPI.Controllers
                     MoreInfo = Resources.MoreInfo_Exception,
                     TraceId = HttpContext.TraceIdentifier
                 });
-            }
-        }
-
-        public async Task<Result> UploadImageAsync(IFormFile file)
-        {
-            try
-            {
-                // Chuyển IFormFile sang dạng byte array
-                byte[] fileBytes;
-                using (var memoryStream = new MemoryStream())
-                {
-                    await file.CopyToAsync(memoryStream);
-                    fileBytes = memoryStream.ToArray();
-                }
-
-                // Tạo đối tượng FileCreateRequest để truyền vào phương thức UploadAsync
-                var fileCreateRequest = new FileCreateRequest()
-                {
-                    file = fileBytes,
-                    fileName = file.FileName
-                };
-
-                // Thực hiện yêu cầu upload ảnh lên ImageKit
-                var uploadResponse = await _imageKitClient.UploadAsync(fileCreateRequest);
-
-                // Trả về đường dẫn (URL) của ảnh đã upload
-                return uploadResponse;
-            }
-            catch (Exception ex)
-            {
-                // Xử lý lỗi nếu có
-                Console.WriteLine(ex.Message);
-                return null;
             }
         }
     }
