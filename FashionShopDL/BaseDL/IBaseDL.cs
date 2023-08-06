@@ -22,7 +22,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public T GetRecordByID(Guid recordID);
+        public ServiceResponse GetRecordByID(int recordID);
 
         /// <summary>
         /// Lấy mã bản ghi để kiểm tra có bị trùng không
@@ -37,7 +37,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public Guid DeleteRecord(Guid recordID);
+        public ServiceResponse DeleteRecord(int recordID);
 
         /// <summary>
         /// Thêm mới bản ghi
@@ -51,6 +51,6 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <param name="record">bản ghi</param>
         /// <returns>id</returns>
-        public ServiceResponse UpdateRecord(Guid recordID, T record);
+        public ServiceResponse UpdateRecord(int recordID, T record);
     }
 }

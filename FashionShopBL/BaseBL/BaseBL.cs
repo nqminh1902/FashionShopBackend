@@ -43,7 +43,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public T GetRecordByID(Guid recordID)
+        public ServiceResponse GetRecordByID(int recordID)
         {
             return _baseDL.GetRecordByID(recordID);
         }
@@ -55,9 +55,10 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public Guid DeleteRecord(Guid recordID)
+        public ServiceResponse DeleteRecord(int recordID)
         {
-            return _baseDL.DeleteRecord(recordID);
+            var response = _baseDL.DeleteRecord(recordID);
+            return response;
         }
 
 
@@ -67,7 +68,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public ServiceResponse InsertRecord(T record)
+        public virtual ServiceResponse InsertRecord(T record)
         {
             // Thực hiện gọi làm thêm bản ghi và trả về kết quả
             var response = _baseDL.InsertRecord(record);
@@ -93,10 +94,10 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse UpdateRecord(Guid recordID, T record)
+        public virtual ServiceResponse UpdateRecord(int recordID, T record)
         {
             // Thực hiện gọi hàm sửa bản ghi và trả về kết quả
-            var response = _baseDL.UpdateRecord(recordID, record);
+           var response = _baseDL.UpdateRecord(recordID, record);
             if (response.Success == true )
             {
                 return new ServiceResponse()

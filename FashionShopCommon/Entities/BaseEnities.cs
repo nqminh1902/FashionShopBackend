@@ -22,10 +22,5 @@ namespace FashionShopCommon.Entities
         /// Thời gian chỉnh sửa gần nhất
         /// </summary>
         public DateTime? ModifiedDate { get; set; }
-
-        /// <summary>
-        /// Người chỉnh sửa gần nhất
-        /// </summary>
-        public string? ModifiedBy { get; set; }
     }
 }

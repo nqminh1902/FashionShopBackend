@@ -63,21 +63,21 @@ namespace FashionShopAPI.Controllers
         /// <returns>Trả về thông tin 1 bản ghi theo ID</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/11/2022)
         [HttpGet("{recordID}")]
-        public IActionResult GetRecordByID([FromRoute] Guid recordID)
+        public IActionResult GetRecordByID([FromRoute] int recordID)
         {
             try
             {
-                var record = _baseBL.GetRecordByID(recordID);
+                var response = _baseBL.GetRecordByID(recordID);
 
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
-                if (record != null)
+                if (response.Success)
                 {
-                    return StatusCode(StatusCodes.Status200OK, record);
+                    return StatusCode(StatusCodes.Status200OK, response);
                 }
                 // Thất bại
-                return StatusCode(StatusCodes.Status404NotFound);
+                return StatusCode(StatusCodes.Status404NotFound, response);
             }
             catch (Exception ex)
             {
@@ -101,28 +101,21 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID của bản ghi vừa xóa</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/3/2022)
         [HttpDelete("{recordID}")]
-        public IActionResult DeleteRecord([FromRoute] Guid recordID)
+        public IActionResult DeleteRecord([FromRoute] int recordID)
         {
             try
             {
-                var ID = _baseBL.DeleteRecord(recordID);
+                var serviceResponse = _baseBL.DeleteRecord(recordID);
 
                 //Xử lý kết quả trả về
 
                 //Thành công: Trả về Id nhân viên thêm thành công
-                if (ID == recordID)
+                if (serviceResponse.Success)
                 {
-                    return StatusCode(StatusCodes.Status200OK, ID);
+                    return StatusCode(StatusCodes.Status200OK, serviceResponse);
                 }
                 //Thất bại
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    ErrorCode = ErrorCode.Exception,
-                    DevMsg = Resources.DevMsg_DeleteFail,
-                    UserMsg = Resources.UserMsg_DeleteFail,
-                    MoreInfo = Resources.MoreInfo_Exception,
-                    TraceId = HttpContext.TraceIdentifier
-                });
+                return StatusCode(StatusCodes.Status500InternalServerError, serviceResponse);
             }
             catch (Exception ex)
             {
@@ -187,7 +180,7 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID của bản ghi vừa cập nhập</returns>
         /// CreateBy: Nguyễn Quang Minh (25/11/2022)
         [HttpPut("{recordID}")]
-        public IActionResult UpdateRecord([FromRoute] Guid recordID, [FromBody] T record)
+        public IActionResult UpdateRecord([FromRoute] int recordID, [FromBody] T record)
         {
             try
             {

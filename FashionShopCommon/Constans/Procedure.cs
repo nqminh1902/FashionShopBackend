@@ -45,5 +45,11 @@ namespace FashionShopCommon
 
 
         public static string GET_User_Login = "Proc_User_Login";
+        /// <summary>
+        /// Lấy màu sắc, kích cỡ của sản phẩm theo id sản phẩm
+        /// </summary>
+        public static string GET_PRODUCT_SIZE_COLOR_BY_ID = "Proc_Product_ColorSizeByID";
+
+        
     }
 }

@@ -42,7 +42,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public T GetRecordByID(Guid recordID)
+        public ServiceResponse GetRecordByID(int recordID)
         {
 
             // Chuẩn bị câu lệnh SQL
@@ -60,7 +60,19 @@ namespace FashionShopDL.BaseDL
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
-                return record;
+                if(record != null)
+                {
+                    return new ServiceResponse()
+                    {
+                        Data = record,
+                        Success = true
+                    };
+                }
+                return new ServiceResponse()
+                {
+                    Data = record,
+                    Success = false
+                };
             }
 
         }
@@ -100,7 +112,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public Guid DeleteRecord(Guid recordID)
+        public ServiceResponse DeleteRecord(int recordID)
         {
 
             // Chuẩn bị câu lệnh SQL
@@ -121,9 +133,17 @@ namespace FashionShopDL.BaseDL
             //Thành công: Trả về Id nhân viên thêm thành công
             if (numberOfRowsAffected > 0)
             {
-                return recordID;
+                return new ServiceResponse()
+                {
+                    Success = true,
+                    Data = recordID
+                };
             }
-            return new Guid();
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = recordID
+            };
         }
 
         /// <summary>
@@ -207,7 +227,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse UpdateRecord(Guid recordID, T record)
+        public ServiceResponse UpdateRecord(int recordID, T record)
         {
             // Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.UPDATE_RECORD, typeof(T).Name);

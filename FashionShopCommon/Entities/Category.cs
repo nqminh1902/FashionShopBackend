@@ -10,6 +10,6 @@ namespace FashionShopCommon.Entities
     {
         public int? CategoryID { get; set; }
         public string CategoryName { get; set; }
-        public int CategoryStatus { get; set; }
+        public int Status { get; set; }
     }
 }

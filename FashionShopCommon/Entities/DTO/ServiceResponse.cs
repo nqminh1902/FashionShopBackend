@@ -17,10 +17,5 @@ namespace FashionShopCommon
         /// Danh sách lỗi
         /// </summary>
         public object Data { get; set; }
-
-        /// <summary>
-        /// ID của bản ghi
-        /// </summary>
-        public Guid? ID { get; set; }
     }
 }
