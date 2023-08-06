@@ -11,12 +11,12 @@ namespace FashionShopCommon.Entities
         /// <summary>
         /// Ngày tạo
         /// </summary>
-        public DateTime? CreateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         /// <summary>
         /// Người tạo
         /// </summary>
-        public string? CreateBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Thời gian chỉnh sửa gần nhất

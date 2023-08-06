@@ -1,4 +1,5 @@
 ﻿using FashionShopBL.BaseBL;
+using FashionShopBL.ProductBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +11,10 @@ namespace FashionShopAPI.Controllers
     [ApiController]
     public class ProductController : BaseController<Product>
     {
-
-        public ProductController(IBaseBL<Product> baseBL) : base(baseBL)
+        private IProductBL _productBL;
+        public ProductController(IProductBL productBL) : base(productBL)
         {
+            _productBL = productBL;
         }
     }
 }

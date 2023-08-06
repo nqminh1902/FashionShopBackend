@@ -1,4 +1,5 @@
-﻿using FashionShopCommon.Entities;
+﻿using FashionShopCommon;
+using FashionShopCommon.Entities;
 using FashionShopDL.BaseDL;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace FashionShopDL.ProductImageDL
 {
     public interface IProductImageDL:IBaseDL<ProductImage>
     {
+        public ServiceResponse InsertProductImage(List<ProductImage> productImages);
     }
 }

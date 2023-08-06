@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FashionShopCommon;
+using FashionShopCommon.Entities.Attribute;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -152,7 +153,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public ServiceResponse InsertRecord(T record)
+        public virtual ServiceResponse InsertRecord(T record)
         {
             // Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.INSERT_RECORD, typeof(T).Name);
@@ -227,7 +228,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse UpdateRecord(int recordID, T record)
+        public virtual ServiceResponse UpdateRecord(int recordID, T record)
         {
             // Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.UPDATE_RECORD, typeof(T).Name);
