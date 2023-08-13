@@ -1,4 +1,7 @@
-﻿using FashionShopCommon;
+﻿using Dapper;
+using FashionShopCommon;
+using FashionShopCommon.Entities;
+using FashionShopCommon.Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,10 +50,24 @@ namespace FashionShopDL.BaseDL
         public ServiceResponse InsertRecord(T record);
 
         /// <summary>
+        /// Thêm mới nhieeyuf bản ghi
+        /// </summary>
+        /// <param name="records"></param>
+        /// <returns></returns>
+        public ServiceResponse InsertMultipleRecord(List<T> records);
+
+        /// <summary>
         /// Cập nhật bản ghi
         /// </summary>
         /// <param name="record">bản ghi</param>
         /// <returns>id</returns>
         public ServiceResponse UpdateRecord(int recordID, T record);
+
+        /// <summary>
+        /// Lấy ra bản ghi theo tìm kiếm và phân trang
+        /// </summary>
+        /// <param name="pagingRequest"></param>
+        /// <returns></returns>
+        public PagingResult GetPaging(DynamicParameters parameter);
     }
 }

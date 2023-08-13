@@ -1,4 +1,6 @@
-﻿using FashionShopCommon;
+﻿using Dapper;
+using FashionShopCommon;
+using FashionShopCommon.Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,5 +51,19 @@ namespace FashionShopBL.BaseBL
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
         public ServiceResponse UpdateRecord(int recordID, T record);
+
+        /// <summary>
+        /// Lấy ra bản ghi theo tìm kiếm và phân trang
+        /// </summary>
+        /// <param name="pagingRequest"></param>
+        /// <returns></returns>
+        public ServiceResponse GetPaging(PagingRequest parameter);
+
+        /// <summary>
+        /// Hàm xây dựng câu lệnh tìm kiếm
+        /// </summary>
+        /// <param name="pagingRequest"></param>
+        /// <returns></returns>
+        public DynamicParameters BuildWhereParameter(PagingRequest pagingRequest);
     }
 }

@@ -53,26 +53,19 @@ namespace FashionShopDL.ProductDL
                 // Bắt đầu transaction 
                 var transaction = mySqlConnection.BeginTransaction();
                 // Thực hiện gọi vào DB
-                var result = mySqlConnection.Execute(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+                var result = mySqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 // return kết quả
                 if (result != null)
                 {
                     transaction.Commit();
                     mySqlConnection.Close();
-                    var productID = mySqlConnection.QueryFirstOrDefault<int>("Proc_Product_GetMaxID", commandType: System.Data.CommandType.StoredProcedure);
-                    if(productID != null)
-                    {
-                        return new ServiceResponse()
-                        {
-                            Success = true,
-                            Data = productID
-                        };
-                    }
+                    
                     return new ServiceResponse()
                     {
-                        Success = false,
-                        Data = null
+                        Success = true,
+                        Data = result
                     };
+                    
                 }
                 // Rollback về lại ban đầu
                 else

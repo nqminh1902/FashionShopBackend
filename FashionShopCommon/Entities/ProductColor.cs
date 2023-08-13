@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace FashionShopCommon.Entities
 {
-    public class ProductColor
+    public class ProductColor: BaseEnities
     {
         public int? ProductColorID { get; set; }
         public string ProductColorName { get; set; }
+        public int ProductID { get; set;}
     }
 }

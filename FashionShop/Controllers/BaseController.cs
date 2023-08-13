@@ -1,9 +1,14 @@
 ﻿using FashionShopBL.BaseBL;
 using FashionShopCommon;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Buffers.Text;
+using System;
 using System.Data;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FashionShopAPI.Controllers
 {
@@ -216,5 +221,41 @@ namespace FashionShopAPI.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// Hàm xử lý lấy dữ liệu theo phân trang
+        /// </summary>
+        /// <param name="pagingRequest"></param>
+        /// <returns></returns>
+        [HttpPost("paging")]
+        public IActionResult GetPaging([FromBody] PagingRequest pagingRequest)
+        {
+            try
+            {
+
+                var result = _baseBL.GetPaging(pagingRequest);
+
+                if (result.Success)
+                {
+                    return StatusCode(StatusCodes.Status200OK, result);
+                }
+                // Thất bại
+                return StatusCode(StatusCodes.Status404NotFound, result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                {
+                    ErrorCode = ErrorCode.Exception,
+                    DevMsg = Resources.DevMsg_Exception,
+                    UserMsg = Resources.UserMsg_Exception,
+                    MoreInfo = Resources.MoreInfo_Exception,
+                    TraceId = HttpContext.TraceIdentifier
+                });
+            }
+        }
+
+        
     }
 }

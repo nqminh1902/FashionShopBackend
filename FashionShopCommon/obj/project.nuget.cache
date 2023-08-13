@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "cxT8BwxI6LJWfvrVYHOP/gBeMpem9szNHo5fzWsPJe7AoLFp5SbNsui+XdMwCnV9ILBMB7TNIZRO/sWVAwC6kg==",
+  "dgSpecHash": "nj7rbfBofNfBtw6UNkxAJLJr7WGo2QSNxirnx5IkIbL5TrzuY5vNi0Og/hEfrFFNZaDcfncd7yA82ZBt5PlJ2A==",
   "success": true,
   "projectFilePath": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShopCommon\\FashionShopCommon.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.21\\microsoft.windowsdesktop.app.ref.6.0.21.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.21\\microsoft.netcore.app.ref.6.0.21.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.21\\microsoft.aspnetcore.app.ref.6.0.21.nupkg.sha512"
+  ],
   "logs": []
 }

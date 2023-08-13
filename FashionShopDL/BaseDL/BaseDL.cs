@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using FashionShopCommon;
+using FashionShopCommon.Entities;
 using FashionShopCommon.Entities.Attribute;
+using FashionShopCommon.Entities.DTO;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -222,6 +224,20 @@ namespace FashionShopDL.BaseDL
         }
 
         /// <summary>
+        /// Thêm nhiều bản ghi
+        /// </summary>
+        /// <param name="records"></param>
+        /// <returns></returns>
+        public virtual ServiceResponse InsertMultipleRecord(List<T> records)
+        {
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = null
+            };
+        }
+
+        /// <summary>
         /// Sửa thông tin 1 bản ghi theo ID
         /// </summary>
         /// <param name="recordID">ID của bản ghi muốn sửa</param>
@@ -278,6 +294,35 @@ namespace FashionShopDL.BaseDL
                     };
                 }
             }
+        }
+
+        /// <summary>
+        /// Hàm lấy bàn ghi theo tìm kiếm và phân trang
+        /// </summary>
+        /// <param name="pagingRequest"></param>
+        /// <returns></returns>
+        public PagingResult GetPaging(DynamicParameters parameter)
+        {
+            //Chuẩn bị câu lệnh sql
+            string storeProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(T).Name); ;
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                var multipleResult = mysqlConnection.QueryMultiple(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+
+                if (multipleResult != null)
+                {
+                    var listData = multipleResult.Read<T>().ToList();
+                    var totalCount = multipleResult.Read<long>().Single();
+                    return new PagingResult()
+                    {
+                        Data = listData,
+                        TotalCount = totalCount,
+                    };
+                }
+            }
+            return new PagingResult();
         }
     }
 }

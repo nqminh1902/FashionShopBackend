@@ -1,4 +1,5 @@
-﻿using FashionShopCommon.Entities;
+﻿using FashionShopCommon;
+using FashionShopCommon.Entities;
 using FashionShopDL.BaseDL;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace FashionShopDL.ProductSizeDL
 {
     public interface IProductSizeDL:IBaseDL<ProductSize>
     {
+        public ServiceResponse GetSizesByID(int id);
     }
 }
