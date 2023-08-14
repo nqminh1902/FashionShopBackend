@@ -9,6 +9,7 @@ using System;
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Collections.Generic;
 
 namespace FashionShopAPI.Controllers
 {
@@ -136,6 +137,46 @@ namespace FashionShopAPI.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Xóa danh sách theo ID
+        /// </summary>
+        /// <param name="">danh sách ID đơn</param>
+        /// <returns>Danh sách đơn đã xóa</returns>
+        [HttpPost("deleteBulk")]
+        public IActionResult DeleteMultipleEmployee([FromBody] List<int> ids)
+        {
+            try
+            {
+                var result = _baseBL.DeleteMultiple(ids);
+
+                if (result.Success)
+                {
+                    return StatusCode(StatusCodes.Status200OK, result);
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    ErrorCode = 2,
+                    DevMsg = Resources.DevMsg_DeleteMultipleFail,
+                    UserMsg = Resources.UserMsg_DeleteMultipleFail,
+                    MoreInfo = Resources.MoreInfo_Exception,
+                    TraceId = HttpContext.TraceIdentifier
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                {
+                    ErrorCode = ErrorCode.Exception,
+                    DevMsg = Resources.DevMsg_Exception,
+                    UserMsg = Resources.UserMsg_Exception,
+                    MoreInfo = Resources.MoreInfo_Exception,
+                    TraceId = HttpContext.TraceIdentifier
+                });
+            }
+        }
+
         /// <summary>
         /// Thêm mới 1 bản ghi
         /// </summary>
@@ -162,6 +203,47 @@ namespace FashionShopAPI.Controllers
 
                 }
                 return StatusCode(StatusCodes.Status201Created, isValid);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                {
+                    ErrorCode = ErrorCode.Exception,
+                    DevMsg = Resources.DevMsg_Exception,
+                    UserMsg = Resources.UserMsg_Exception,
+                    MoreInfo = Resources.MoreInfo_Exception,
+                    TraceId = HttpContext.TraceIdentifier
+                });
+            }
+        }
+
+        /// <summary>
+        /// Thêm mới nhiều bản ghi bản ghi
+        /// </summary>
+        /// <param name="record">Chi tiết bản ghi</param>
+        /// <returns>ID bản ghi thêm thành công</returns>
+        /// CreateBy: Nguyễn Quang Minh(25/11/2022)
+        [HttpPost("insertBulk")]
+        public IActionResult InsertMultipleRecord([FromBody] List<T> records)
+        {
+            try
+            {
+                var isValid = _baseBL.InsertMultipleRecord(records);
+                //Xử lý kết quả trả về
+                if (!isValid.Success)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new
+                    {
+                        ErrorCode = ErrorCode.InValidData,
+                        DevMsg = Resources.DevMsg_Required,
+                        UserMsg = isValid.Data,
+                        MoreInfo = Resources.MoreInfo_Exception,
+                        TraceId = HttpContext.TraceIdentifier
+                    });
+
+                }
+                return StatusCode(StatusCodes.Status200OK, isValid);
             }
             catch (Exception ex)
             {

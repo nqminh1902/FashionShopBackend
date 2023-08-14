@@ -43,6 +43,13 @@ namespace FashionShopDL.BaseDL
         public ServiceResponse DeleteRecord(int recordID);
 
         /// <summary>
+        /// Xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ServiceResponse DeleteMultiple(List<int> ids);
+
+        /// <summary>
         /// Thêm mới bản ghi
         /// </summary>
         /// <param name="record">bản ghi</param>

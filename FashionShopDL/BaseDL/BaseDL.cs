@@ -150,6 +150,77 @@ namespace FashionShopDL.BaseDL
         }
 
         /// <summary>
+        /// Xóa hàng loạt bản ghi theo ID
+        /// </summary>
+        /// <param name="">Danh sách ID</param>
+        /// <returns>Danh sách ID xóa thành công</returns>
+        /// CreateBy: Nguyễn Quang Minh (15/11/2022)
+        public ServiceResponse DeleteMultiple(List<int> ids)
+        {
+
+            MySqlTransaction transaction = null;
+
+            foreach (int id in ids)
+            {
+                ids.Add(id);
+            }
+
+            var str = string.Join("','", ids);
+
+            //Chuẩn bị câu lệnh SQL
+            string sql = $" DELETE FROM {typeof(T).Name.ToLower()} WHERE {typeof(T).Name}ID IN ('{str}');";
+
+            int numberOfRowsAffected = 0;
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                try
+                {
+                    transaction = mySqlConnection.BeginTransaction();
+                    //Thực hiện gọi vào DB
+                    numberOfRowsAffected = mySqlConnection.Execute(sql, transaction: transaction);
+                    if (numberOfRowsAffected == ids.Count)
+                    {
+                        transaction.Commit();
+
+                    }
+                    else
+                    {
+
+                        transaction.Rollback();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                }
+                finally
+                {
+                    mySqlConnection.Close();
+                }
+            }
+            //Xử lý kết quả trả về
+
+            //Thành công: Trả về Id nhân viên thêm thành công
+            if (numberOfRowsAffected > 0)
+            {
+                return new ServiceResponse()
+                {
+                    Success = true,
+                    Data = ids
+                };
+            }
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = ids
+            }; ;
+        }
+
+        /// <summary>
         /// Thêm mới một bản ghi
         /// </summary>
         /// <param name="record">Đối tượng cẩn thêm mới</param>
@@ -304,7 +375,7 @@ namespace FashionShopDL.BaseDL
         public PagingResult GetPaging(DynamicParameters parameter)
         {
             //Chuẩn bị câu lệnh sql
-            string storeProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(T).Name); ;
+            string storeProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(T).Name);
 
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))

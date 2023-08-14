@@ -36,12 +36,28 @@ namespace FashionShopBL.BaseBL
         public ServiceResponse DeleteRecord(int recordID);
 
         /// <summary>
+        /// Xóa hàng loạt bản ghi theo ID
+        /// </summary>
+        /// <param name="">Danh sách ID</param>
+        /// <returns>Danh sách ID xóa thành công</returns>
+        /// CreateBy: Nguyễn Quang Minh (15/11/2022)
+        public ServiceResponse DeleteMultiple(List<int> ids);
+
+        /// <summary>
         /// Thêm mới một bản ghi
         /// </summary>
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
         public ServiceResponse InsertRecord(T record);
+
+        /// <summary>
+        /// Thêm mới nhiều bản ghi
+        /// </summary>
+        /// <param name="record">Đối tượng cẩn thêm mới</param>
+        /// <returns>ID của đối tượng vừa thêm mới</returns>
+        /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
+        public ServiceResponse InsertMultipleRecord(List<T> records);
 
         /// <summary>
         /// Sửa thông tin 1 bản ghi theo ID

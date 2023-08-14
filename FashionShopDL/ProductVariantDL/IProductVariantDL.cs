@@ -11,6 +11,6 @@ namespace FashionShopDL.ProductVariantDL
 {
     public interface IProductVariantDL:IBaseDL<ProductVariant>
     {
-        public ServiceResponse InsertMultipleProductVariant(int productId);
+        public ServiceResponse InsertMultipleProductVariant(int productId, List<ProductVariant> productVariants);
     }
 }

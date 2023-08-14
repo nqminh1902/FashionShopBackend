@@ -8,19 +8,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace FashionShopDL.ProductVariantDL
 {
     public class ProductVariantDL:BaseDL<ProductVariant>, IProductVariantDL
     {
-        public ServiceResponse InsertMultipleProductVariant(int productId)
+        public ServiceResponse InsertMultipleProductVariant(int productId, List<ProductVariant> productVariants)
         {
-            if(productId != null)
+            if(productId > 0 && productVariants.Count > 0)
             {
                 MySqlTransaction transaction = null;
                 var parameter = new DynamicParameters();
+                List<string> listVariantInsert = new List<string>();
+                //for(int i = 0; i < productVariants.Count; i++)
+                //{
+                //    var variant = productVariants[i];
+                //    var value = $"(@ProductID{i}, @ProductSizeID{i}, @ProductColorID{i}, @Quantity{i}, NOW(), NOW(), 'Nguyễn Quang Minh')";
+                //    value = value.Replace($"@ProductID{i}", productId.ToString())
+                //                 .Replace($"@ProductSizeID{i}", variant.ProductSizeID.ToString())
+                //                 .Replace($"@ProductColorID{i}", variant.ProductColorID.ToString())
+                //                 .Replace($"@Quantity{i}", variant.Quantity.ToString());
+                //    listVariantInsert.Add(value);
+                //}
 
-                parameter.Add("v_productID", productId);
+                for (int i = 0; i < productVariants.Count; i++)
+                {
+                    parameter.Add($"@ProductID{i}", productId);
+                    parameter.Add($"@ProductColorID{i}", productVariants[i].ProductColorID);
+                    parameter.Add($"@ProductSizeID{i}", productVariants[i].ProductSizeID);
+                    parameter.Add($"@Quantity{i}", productVariants[i].Quantity);
+                    listVariantInsert.Add($"(@ProductID{i}, @ProductSizeID{i}, @ProductColorID{i}, @Quantity{i}, NOW(), NOW(), 'Nguyễn Quang Minh')");
+                }
+
+                string sql = string.Format("INSERT INTO product_variant (ProductID, ProductSizeID, ProductColorID, Quantity, ModifiedDate, CreatedDate, CreatedBy) VALUES {0};", string.Join(", ", listVariantInsert));
                 
                 // Khời tạo kết nối tới DB MySQL
                 using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
@@ -30,8 +51,8 @@ namespace FashionShopDL.ProductVariantDL
                     {
                         transaction = mySqlConnection.BeginTransaction();
                         //Thực hiện gọi vào DB
-                        var result = mySqlConnection.Execute("Proc_ProductVariant_InsertMultiple", parameter, transaction: transaction, commandType: System.Data.CommandType.StoredProcedure);
-                        if (result != null)
+                        var result = mySqlConnection.Execute(sql, parameter, transaction: transaction);
+                        if (result > 0)
                         {
                             transaction.Commit();
                             mySqlConnection.Close();

@@ -25,6 +25,8 @@ namespace FashionShopCommon.Entities
         public List<ProductSize>? ProductSizes { get; set; }
         [DetailTable]
         public List<ProductImage>? ProductImages { get; set; }
+        [DetailTable]
+        public List<ProductVariant>? ProductVariants { get; set; }
         public ProductStatus Status { get; set; }
 
     }

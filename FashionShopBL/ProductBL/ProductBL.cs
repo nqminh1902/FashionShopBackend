@@ -33,16 +33,15 @@ namespace FashionShopBL.ProductBL
 
         public override ServiceResponse InsertRecord(Product record)
         {
-            ServiceResponse colorResponse = new ServiceResponse() { Success = false};
-            ServiceResponse sizeResponse = new ServiceResponse() { Success = false};
             int productID;
             // Thực hiện gọi làm thêm bản ghi và trả về kết quả
             var product = _productDL.InsertRecord(record);
             if(product.Success == true)
             {
                 productID = (int)product.Data;
+                record.ProductID = productID;
                 //Insert ảnh sản phẩm
-                if (record.ProductImages.Count > 0)
+                if (record.ProductImages?.Count > 0)
                 {
                     foreach (var image in record.ProductImages)
                     {
@@ -57,43 +56,21 @@ namespace FashionShopBL.ProductBL
                         return imageResponse;
                     }
                 }
-                //Insert màu sản phẩm
-                if (record.ProductColors.Count > 0)
+                if(record.ProductVariants?.Count > 0)
                 {
-                    foreach (var color in record.ProductColors)
+
+                    var response  =  _productVariantDL.InsertMultipleProductVariant(productID, record.ProductVariants);
+                    if (response.Success == false)
                     {
-                        color.ProductID = productID;
+                        return response;
                     }
-                    colorResponse = _productColorDL.InsertMultipleRecord(record.ProductColors);
-                    if (colorResponse.Success == false)
-                    {
-                        return colorResponse;
-                    }
-                }
-                //Insert kích cỡ sản phẩm
-                if (record.ProductSizes.Count > 0)
-                {
-                    foreach (var size in record.ProductSizes)
-                    {
-                        size.ProductID = productID;
-                    }
-                    sizeResponse = _productSizeDL.InsertMultipleRecord(record.ProductSizes);
-                    if (colorResponse.Success == false)
-                    {
-                        return colorResponse;
-                    }
-                }
-                // Insert biết thể sản phẩm
-                if(record.ProductSizes.Count > 0 || record.ProductColors.Count > 0)
-                {       
-                    var productVariantResponse = _productVariantDL.InsertMultipleProductVariant(productID);
                 }
 
             }
-            return new ServiceResponse()
+            return new ServiceResponse()    
             {
-                Success = false,
-                Data = null
+                Success = true,
+                Data = record
             };
         }
     }

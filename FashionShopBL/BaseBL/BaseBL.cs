@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FashionShopCommon;
 using FashionShopCommon.Entities.DTO;
+using FashionShopCommon.ExtentionMethod;
 using FashionShopDL.BaseDL;
 using Newtonsoft.Json;
 using System;
@@ -65,6 +66,16 @@ namespace FashionShopBL.BaseBL
             return response;
         }
 
+        /// <summary>
+        /// Xóa hàng loạt bản ghi theo ID
+        /// </summary>
+        /// <param name="">Danh sách ID</param>
+        /// <returns>Danh sách ID xóa thành công</returns>
+        /// CreateBy: Nguyễn Quang Minh (15/11/2022)
+        public virtual ServiceResponse DeleteMultiple(List<int> ids)
+        {
+            return _baseDL.DeleteMultiple(ids);
+        }
 
         /// <summary>
         /// Thêm mới một bản ghi
@@ -89,6 +100,36 @@ namespace FashionShopBL.BaseBL
                 Success = false,
                 Data = null
             };
+        }
+
+        /// <summary>
+        /// Thêm mới nhiều bản ghi
+        /// </summary>
+        /// <param name="record">Đối tượng cẩn thêm mới</param>
+        /// <returns>ID của đối tượng vừa thêm mới</returns>
+        /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
+        public virtual ServiceResponse InsertMultipleRecord(List<T> records)
+        {
+            // Thực hiện gọi làm thêm bản ghi và trả về kết quả
+
+            foreach (var record in records)
+            {
+                var response = _baseDL.InsertRecord(record);
+                if (!response.Success)
+                {
+                    return new ServiceResponse()
+                    {
+                        Success = false,
+                        Data = records
+                    };
+                }
+            }
+            return new ServiceResponse()
+            {
+                Success = true,
+                Data = records
+            };
+            
         }
 
         /// <summary>
@@ -125,7 +166,7 @@ namespace FashionShopBL.BaseBL
         public virtual ServiceResponse GetPaging(PagingRequest pagingRequest)
         {
             var param = BuildWhereParameter(pagingRequest);
-            var test = GetValue("Test", pagingRequest.CustomParam);
+            var test = pagingRequest.CustomParam?.GetValue("Test");
             var hoho = $"Hôm nay tôi cười {test}";
             var pagingResult = _baseDL.GetPaging(param);
             if (pagingResult.TotalCount > 0)
@@ -236,24 +277,6 @@ namespace FashionShopBL.BaseBL
         {
             byte[] data = Convert.FromBase64String(base64Encoded);
             return Encoding.UTF8.GetString(data);
-        }
-
-        /// <summary>
-        /// Lấy ra value của dictionary theo key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="keyValuePairs"></param>
-        /// <returns></returns>
-        public object GetValue(string key, Dictionary<string, object> keyValuePairs)
-        {
-            if (keyValuePairs != null)
-            {
-                if (keyValuePairs.ContainsKey(key))
-                {
-                    return keyValuePairs[key];
-                }
-            }
-            return "";
         }
         #endregion
 
