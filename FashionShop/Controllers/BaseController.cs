@@ -317,12 +317,8 @@ namespace FashionShopAPI.Controllers
 
                 var result = _baseBL.GetPaging(pagingRequest);
 
-                if (result.Success)
-                {
-                    return StatusCode(StatusCodes.Status200OK, result);
-                }
-                // Thất bại
-                return StatusCode(StatusCodes.Status404NotFound, result);
+                return StatusCode(StatusCodes.Status200OK, result);
+           
             }
             catch (Exception ex)
             {

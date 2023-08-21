@@ -262,7 +262,11 @@ namespace FashionShopBL.BaseBL
             // Build câu lệnh v_where
             if (andCondition.Count > 0)
             {
-                parameters.Add("v_where", $"{string.Join(" AND ", andCondition)} {sordCondition};");
+                parameters.Add("v_where", $" WHERE {string.Join(" AND ", andCondition)} {sordCondition};");
+            }
+            else
+            {
+                parameters.Add("v_where", $"{sordCondition};");
             }
 
             return parameters;

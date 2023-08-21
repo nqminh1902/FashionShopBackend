@@ -21,17 +21,6 @@ namespace FashionShopDL.ProductVariantDL
                 MySqlTransaction transaction = null;
                 var parameter = new DynamicParameters();
                 List<string> listVariantInsert = new List<string>();
-                //for(int i = 0; i < productVariants.Count; i++)
-                //{
-                //    var variant = productVariants[i];
-                //    var value = $"(@ProductID{i}, @ProductSizeID{i}, @ProductColorID{i}, @Quantity{i}, NOW(), NOW(), 'Nguyễn Quang Minh')";
-                //    value = value.Replace($"@ProductID{i}", productId.ToString())
-                //                 .Replace($"@ProductSizeID{i}", variant.ProductSizeID.ToString())
-                //                 .Replace($"@ProductColorID{i}", variant.ProductColorID.ToString())
-                //                 .Replace($"@Quantity{i}", variant.Quantity.ToString());
-                //    listVariantInsert.Add(value);
-                //}
-
                 for (int i = 0; i < productVariants.Count; i++)
                 {
                     parameter.Add($"@ProductID{i}", productId);
