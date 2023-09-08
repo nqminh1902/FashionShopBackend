@@ -98,7 +98,7 @@ namespace FashionShopAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImage([FromBody] string id)
+        public async Task<IActionResult> DeleteImage([FromRoute] string id)
         {
 
             try

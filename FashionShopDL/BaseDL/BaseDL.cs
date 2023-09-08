@@ -21,7 +21,7 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <returns>Danh sách tất cả nhân viên</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public IEnumerable<T> GetAllRecords()
+        public ServiceResponse GetAllRecords()
         {
             // Chuẩn bị câu lệnh SQL
             string storeProcedureName = String.Format(Procedure.GET_ALL, typeof(T).Name);
@@ -35,7 +35,19 @@ namespace FashionShopDL.BaseDL
                 records = (List<T>)mySqlConnection.Query<T>(storeProcedureName, commandType: System.Data.CommandType.StoredProcedure);
 
             }
-            return records;
+            if(records.Count > 0)
+            {
+                return new ServiceResponse()
+                {
+                    Success = true,
+                    Data = records
+                };
+            }
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = records
+            }; ;
 
         }
 

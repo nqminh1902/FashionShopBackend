@@ -16,7 +16,7 @@ namespace FashionShopBL.BaseBL
         /// </summary>
         /// <returns>Danh sách tất cả bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public IEnumerable<T> GetAllRecords();
+        public ServiceResponse GetAllRecords();
 
         /// <summary>
         /// Lấy thông tin của 1 bản ghi theo ID

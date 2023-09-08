@@ -8,8 +8,8 @@ namespace FashionShopCommon
 {
     public enum ProductStatus
     {
+        Unavailable = 0,
         Available = 1,
-        Unavailable = 2,
-        OutOfStock = 3
+        OutOfStock = 2
     }
 }

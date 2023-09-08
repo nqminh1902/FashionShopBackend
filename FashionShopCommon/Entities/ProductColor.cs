@@ -10,6 +10,8 @@ namespace FashionShopCommon.Entities
     {
         public int? ProductColorID { get; set; }
         public string ProductColorName { get; set; }
+
+        public string ProductColorImage { get; set; }
         public int ProductID { get; set;}
     }
 }

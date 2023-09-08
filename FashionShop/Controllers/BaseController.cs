@@ -42,11 +42,7 @@ namespace FashionShopAPI.Controllers
 
                 var records = _baseBL.GetAllRecords();
 
-                if (records != null)
-                {
-                    return StatusCode(StatusCodes.Status200OK, records);
-                }
-                return StatusCode(StatusCodes.Status200OK, new List<T>());
+                return StatusCode(StatusCodes.Status200OK, records);
 
             }
             catch (Exception ex)
