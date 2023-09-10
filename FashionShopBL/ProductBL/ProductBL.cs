@@ -1,6 +1,7 @@
 ﻿using FashionShopBL.BaseBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
+using FashionShopCommon.Enums;
 using FashionShopDL.BaseDL;
 using FashionShopDL.ProductColorDL;
 using FashionShopDL.ProductDL;
@@ -71,6 +72,53 @@ namespace FashionShopBL.ProductBL
             {
                 Success = true,
                 Data = record
+            };
+        }
+
+        public override ServiceResponse UpdateRecord(int id, Product record)
+        {
+            // Thực hiện gọi làm thêm bản ghi và trả về kết quả
+            var product = _productDL.UpdateRecord(id, record);
+            //if (product.Success == true)
+            //{
+            //    //Insert ảnh sản phẩm
+            //    if (record.ProductImages?.Count > 0)
+            //    {
+            //        foreach (var image in record.ProductImages)
+            //        {
+            //            if(image.State == StateEnum.Insert)
+            //            {
+            //                _productImageDL.InsertRecord(image);
+            //            }
+            //            else if(image.State == StateEnum.Delete) 
+            //            {
+            //                _productImageDL.DeleteRecord(image.ProductImageID);
+            //            }
+            //        }
+            //    }
+            //    if (record.ProductVariants?.Count > 0)
+            //    {
+            //        foreach(var variant in record.ProductVariants)
+            //        {
+            //            if(variant.State == StateEnum.Insert)
+            //            {
+            //                _productVariantDL.InsertRecord(variant);
+            //            }
+            //            if(variant.State == StateEnum.Delete)
+            //            {
+            //                _productVariantDL.DeleteRecord(variant.ProductVariantID);
+            //            }
+            //            if(variant.State == StateEnum.Update)
+            //            {
+            //                _productVariantDL.UpdateRecord(variant.ProductVariantID, variant);
+            //            }
+            //        }
+            //    }
+            //}
+            return new ServiceResponse()
+            {
+                Success = true,
+                Data = product
             };
         }
     }

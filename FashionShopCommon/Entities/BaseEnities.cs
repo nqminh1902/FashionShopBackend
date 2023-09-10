@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FashionShopCommon.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,5 +23,10 @@ namespace FashionShopCommon.Entities
         /// Thời gian chỉnh sửa gần nhất
         /// </summary>
         public DateTime? ModifiedDate { get; set; }
+
+        /// <summary>
+        /// Trạng thái bản ghi Thêm, sửa, xóa
+        /// </summary>
+        public StateEnum? State { get; set; }
     }
 }

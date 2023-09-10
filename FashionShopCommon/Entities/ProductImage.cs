@@ -8,7 +8,7 @@ namespace FashionShopCommon.Entities
 {
     public class ProductImage: BaseEnities
     {
-        public int? ProductImageID { get; set; }
+        public int ProductImageID { get; set; }
         public string ImageUrl { get; set;}
         public string ImageID { get; set; }
         public string? ImageThumbnail { get; set; }

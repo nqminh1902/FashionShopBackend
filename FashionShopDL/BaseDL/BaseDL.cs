@@ -57,7 +57,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public ServiceResponse GetRecordByID(int recordID)
+        public virtual ServiceResponse GetRecordByID(int recordID)
         {
 
             // Chuẩn bị câu lệnh SQL
@@ -71,7 +71,7 @@ namespace FashionShopDL.BaseDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var record = mySqlConnection.QueryFirstOrDefault<T>(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var record = mySqlConnection.QueryFirstOrDefault(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -258,10 +258,15 @@ namespace FashionShopDL.BaseDL
             {
                 // LẤy ra attribute KeyAttribute
                 var keyAtrribute = Attribute.GetCustomAttribute(prop, typeof(Key));
+                var detailTableAtrribute = Attribute.GetCustomAttribute(prop, typeof(DetailTable));
                 // Nếu có thì lưu id mới
                 if (keyAtrribute != null)
                 {
                     propValue = newRecordID;
+                }
+                if (detailTableAtrribute != null)
+                {
+                    continue;
                 }
                 // Lưu giá trị của đối tượng
                 else
@@ -321,6 +326,20 @@ namespace FashionShopDL.BaseDL
         }
 
         /// <summary>
+        /// Cập nhật nhiều bản ghi
+        /// </summary>
+        /// <param name="records"></param>
+        /// <returns></returns>
+        public virtual ServiceResponse UpdateMultipleRecord(List<T> records)
+        {
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = null
+            };
+        }
+
+        /// <summary>
         /// Sửa thông tin 1 bản ghi theo ID
         /// </summary>
         /// <param name="recordID">ID của bản ghi muốn sửa</param>
@@ -342,9 +361,17 @@ namespace FashionShopDL.BaseDL
 
             foreach (var prop in properties)
             {
-                // Lưu giá trị của đối tượng
-                propValue = prop.GetValue(record);
-
+                var detailTableAtrribute = Attribute.GetCustomAttribute(prop, typeof(DetailTable));
+                // Nếu có thì lưu id mới
+                if (detailTableAtrribute != null)
+                {
+                    continue;
+                }
+                else
+                {
+                    // Lưu giá trị của đối tượng
+                    propValue = prop.GetValue(record);
+                }
                 // Chuyền vào parameter
                 parameters.Add($"v_{prop.Name}", propValue);
             }

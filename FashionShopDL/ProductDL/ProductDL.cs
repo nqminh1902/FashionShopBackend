@@ -14,6 +14,44 @@ namespace FashionShopDL.ProductDL
 {
     public class ProductDL:BaseDL<Product>, IProductDL
     {
+        public override ServiceResponse GetRecordByID(int id)
+        {
+            // Chuẩn bị câu lệnh SQL
+            string storeProcedureName = "Proc_Product_GetById";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("v_ProductID", id);
+
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                // Thực hiên gọi vào DB
+                var multipleResult = mySqlConnection.QueryMultiple(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                // Xử lý trả về
+
+                // Thành công: Trả về dữ liệu cho FE
+                if (multipleResult != null)
+                {
+                    var product = multipleResult.Read<Product>().FirstOrDefault();
+                    if(product != null)
+                    {
+                        product.ProductImages = multipleResult.Read<ProductImage>().ToList();
+                        product.ProductVariants = multipleResult.Read<ProductVariant>().ToList();
+                    }
+                    return new ServiceResponse()
+                    {
+                        Data = product,
+                        Success = true
+                    };
+                }
+                return new ServiceResponse()
+                {
+                    Data = null,
+                    Success = false
+                };
+            }
+        }
         public override ServiceResponse InsertRecord(Product record)
         {
             // Chuẩn bị câu lệnh sql

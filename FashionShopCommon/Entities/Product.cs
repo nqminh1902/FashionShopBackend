@@ -18,8 +18,10 @@ namespace FashionShopCommon.Entities
         public int TotalQuantity { get; set; }
         public string? QuickDescription { get; set; }
         public int CollectionID { get; set; }
+        public string? CollectionName { get; set; }
         public string? Images { get; set; }
         public int CategoryID { get; set; }
+        public string? CategoryName { get; set; }
         [DetailTable]
         public List<ProductColor>? ProductColors { get; set; }
         [DetailTable]
