@@ -160,6 +160,7 @@ namespace FashionShopBL.BaseBL
             };
         }
 
+
         /// <summary>
         /// Lấy ra bản ghi theo tìm kiếm và phân trang
         /// </summary>
@@ -264,6 +265,7 @@ namespace FashionShopBL.BaseBL
             // Build câu lệnh v_where
             if (andCondition.Count > 0)
             {
+                var test = $" WHERE {string.Join(" AND ", andCondition)} {sordCondition};";
                 parameters.Add("v_where", $" WHERE {string.Join(" AND ", andCondition)} {sordCondition};");
             }
             else

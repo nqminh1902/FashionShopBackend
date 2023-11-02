@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "QbIAVx8MNe1d/QOoj7gRwokqSC+CzP65PY2xabQDct/MaFnC+8nhVAgItxXVtqfsBdVc8uFUwyvKX4UUlJAxlA==",
+  "dgSpecHash": "BAI0z3lJ2oIVYQjdm/yvEBcCHK16Ub7Q2OApMyWx5Xs7Qq6xQHTm4rF/jJ87LjgWlVK0jeZf8hARaWr06QTwXg==",
   "success": true,
   "projectFilePath": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShopCommon\\FashionShopCommon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.21\\microsoft.windowsdesktop.app.ref.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.21\\microsoft.netcore.app.ref.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.21\\microsoft.aspnetcore.app.ref.6.0.21.nupkg.sha512"
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512"
   ],
   "logs": []
 }

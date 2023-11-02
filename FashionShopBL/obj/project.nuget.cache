@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SoGvdIJ8i4SrXp0WwhCRfPuwWPkNbRMXLb/ebx4PAuRiN9skSEtVp8na57+LfloEXW55jZnHYstiIsTlL1QF1g==",
+  "dgSpecHash": "1lQ/OotY5VY3uqBA+rwYtxtXxilNW3Eexce5rAk+De9Nqmw1oUKgVYGbaWnLq8ZI8R5hcH6o1to+nBeqMdd7/w==",
   "success": true,
   "projectFilePath": "D:\\Fashiondev\\backend2\\FashionShop\\FashionShopBL\\FashionShopBL.csproj",
   "expectedPackageFiles": [
@@ -69,9 +69,9 @@
     "C:\\Users\\HP\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.21\\microsoft.windowsdesktop.app.ref.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.21\\microsoft.netcore.app.ref.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.21\\microsoft.aspnetcore.app.ref.6.0.21.nupkg.sha512"
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512"
   ],
   "logs": []
 }

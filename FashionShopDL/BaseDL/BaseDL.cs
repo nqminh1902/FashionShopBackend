@@ -284,16 +284,16 @@ namespace FashionShopDL.BaseDL
                 // Bắt đầu transaction 
                 var transaction = mySqlConnection.BeginTransaction();
                 // Thực hiện gọi vào DB
-                var result = mySqlConnection.Execute(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+                var result = mySqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 // return kết quả
-                if (result > 0)
+                if (result != null)
                 {
                     transaction.Commit();
                     mySqlConnection.Close();
                     return new ServiceResponse()
                     {
                         Success = true,
-                        Data = record
+                        Data = result
                     };
                 }
                 // Rollback về lại ban đầu
@@ -318,10 +318,22 @@ namespace FashionShopDL.BaseDL
         /// <returns></returns>
         public virtual ServiceResponse InsertMultipleRecord(List<T> records)
         {
+            foreach (var item in records)
+            {
+                var res = InsertRecord(item);
+                if(res == null)
+                {
+                    return new ServiceResponse()
+                    {
+                        Success = false,
+                        Data = null
+                    };
+                }
+            }
             return new ServiceResponse()
             {
-                Success = false,
-                Data = null
+                Success = true,
+                Data = records
             };
         }
 
@@ -362,8 +374,13 @@ namespace FashionShopDL.BaseDL
             foreach (var prop in properties)
             {
                 var detailTableAtrribute = Attribute.GetCustomAttribute(prop, typeof(DetailTable));
+                var cancelUpdateAtrribute = Attribute.GetCustomAttribute(prop, typeof(CancelUpdate)); 
                 // Nếu có thì lưu id mới
                 if (detailTableAtrribute != null)
+                {
+                    continue;
+                }
+                if (cancelUpdateAtrribute != null)
                 {
                     continue;
                 }
