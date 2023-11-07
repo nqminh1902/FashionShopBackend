@@ -1,23 +1,28 @@
 ﻿using FashionShopBL;
 using FashionShopBL.BaseBL;
+using FashionShopBL.CandidateBL;
 using FashionShopBL.ProductBL;
 using FashionShopBL.ProductColorBL;
 using FashionShopBL.ProductImageBL;
 using FashionShopBL.ProductSizeBL;
 using FashionShopBL.ProductVariantBL;
 using FashionShopBL.RecruitmentBL;
+using FashionShopBL.RecruitmentDetailBL;
 using FashionShopBL.RecruitmentPeriodBL;
 using FashionShopBL.RecruitmentRoundBL;
 using FashionShopDL;
 using FashionShopDL.BaseDL;
+using FashionShopDL.CandidateDL;
 using FashionShopDL.ProductColorDL;
 using FashionShopDL.ProductDL;
 using FashionShopDL.ProductImageDL;
 using FashionShopDL.ProductSizeDL;
 using FashionShopDL.ProductVariantDL;
+using FashionShopDL.RecruitmentDetailDL;
 using FashionShopDL.RecruitmentDL;
 using FashionShopDL.RecruitmentPeriodDL;
 using FashionShopDL.RecruitmentRoundDL;
+using FashionShopDL.WorkExperientDL;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +46,11 @@ builder.Services.AddScoped<IRecruitmentPeriodDL, RecruitmentPeriodDL>();
 builder.Services.AddScoped<IRecruitmentPeriodBL, RecruitmentPeriodBL>();
 builder.Services.AddScoped<IRecruitmentRoundBL, RecruitmentRoundBL>();
 builder.Services.AddScoped<IRecruitmentRoundDL, RecruitmentRoundDL>();
+builder.Services.AddScoped<ICandidateDL, CandidateDL>();
+builder.Services.AddScoped<ICandidateBL, CandidateBL>();
+builder.Services.AddScoped<IWorkExperientDL, WorkExperientDL>();
+builder.Services.AddScoped<IRecruitmentDetailDL, RecruitmentDetailDL>();
+builder.Services.AddScoped<IRecruitmentDetailBL, RecruitmentDetailBL>();
 
 // Lấy dữ liệu từ connectionString từ file appsetting.Development.json
 DatabaseContext.ConnectionString = builder.Configuration.GetConnectionString("MySQL");
