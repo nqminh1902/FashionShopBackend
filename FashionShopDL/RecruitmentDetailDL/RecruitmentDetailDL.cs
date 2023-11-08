@@ -1,4 +1,5 @@
-﻿using FashionShopDL.BaseDL;
+﻿using FashionShopCommon.Entities;
+using FashionShopDL.BaseDL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FashionShopDL.RecruitmentDetailDL
 {
-    public class RecruitmentDetailDL: BaseDL<RecruitmentDetailDL>, IRecruitmentDetailDL
+    public class RecruitmentDetailDL: BaseDL<RecruitmentDetail>, IRecruitmentDetailDL
     {
     }
 }
