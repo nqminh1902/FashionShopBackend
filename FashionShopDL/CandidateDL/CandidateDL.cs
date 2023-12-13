@@ -49,5 +49,65 @@ namespace FashionShopDL.CandidateDL
                 };
             }
         }
+
+        public override ServiceResponse DeleteMultiple(List<int> ids)
+        {
+            MySqlTransaction transaction = null;
+
+            var str = string.Join("','", ids);
+
+            //Chuẩn bị câu lệnh SQL
+            string sql = $" DELETE FROM candiate WHERE CandidateID IN ('{str}'); DELETE FROM recruitment-detail WHERE CandidateID IN ('{str}');";
+
+            int numberOfRowsAffected = 0;
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                try
+                {
+                    transaction = mySqlConnection.BeginTransaction();
+                    //Thực hiện gọi vào DB
+                    numberOfRowsAffected = mySqlConnection.Execute(sql, transaction: transaction);
+                    if (numberOfRowsAffected == ids.Count)
+                    {
+                        transaction.Commit();
+
+                    }
+                    else
+                    {
+
+                        transaction.Rollback();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                }
+                finally
+                {
+                    mySqlConnection.Close();
+                }
+            }
+
+            //Xử lý kết quả trả về
+
+            //Thành công: Trả về Id nhân viên thêm thành công
+            if (numberOfRowsAffected > 0)
+            {
+                return new ServiceResponse()
+                {
+                    Success = true,
+                    Data = ids
+                };
+            }
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = ids
+            };
+        }
     }
 }

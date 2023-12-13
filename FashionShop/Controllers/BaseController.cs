@@ -137,7 +137,7 @@ namespace FashionShopAPI.Controllers
         /// <summary>
         /// Xóa danh sách theo ID
         /// </summary>
-        /// <param name="">danh sách ID đơn</param>
+        /// <param name="">danh sách ID đơn</param>ca
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("deleteBulk")]
         public IActionResult DeleteMultipleEmployee([FromBody] List<int> ids)

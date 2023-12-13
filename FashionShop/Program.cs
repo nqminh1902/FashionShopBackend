@@ -1,6 +1,10 @@
 ﻿using FashionShopBL;
 using FashionShopBL.BaseBL;
 using FashionShopBL.CandidateBL;
+using FashionShopBL.CandidateScheduleBL;
+using FashionShopBL.CandidateScheduleDetailBL;
+using FashionShopBL.EmailBL;
+using FashionShopBL.ImportBL;
 using FashionShopBL.ProductBL;
 using FashionShopBL.ProductColorBL;
 using FashionShopBL.ProductImageBL;
@@ -10,18 +14,24 @@ using FashionShopBL.RecruitmentBL;
 using FashionShopBL.RecruitmentDetailBL;
 using FashionShopBL.RecruitmentPeriodBL;
 using FashionShopBL.RecruitmentRoundBL;
+using FashionShopBL.Report;
 using FashionShopDL;
 using FashionShopDL.BaseDL;
 using FashionShopDL.CandidateDL;
+using FashionShopDL.CandidateScheduleDetailDL;
+using FashionShopDL.CandidateScheduleDL;
+using FashionShopDL.EmailDL;
 using FashionShopDL.ProductColorDL;
 using FashionShopDL.ProductDL;
 using FashionShopDL.ProductImageDL;
 using FashionShopDL.ProductSizeDL;
 using FashionShopDL.ProductVariantDL;
+using FashionShopDL.RecruitmentBroadDL;
 using FashionShopDL.RecruitmentDetailDL;
 using FashionShopDL.RecruitmentDL;
 using FashionShopDL.RecruitmentPeriodDL;
 using FashionShopDL.RecruitmentRoundDL;
+using FashionShopDL.ReportDL;
 using FashionShopDL.WorkExperientDL;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +61,19 @@ builder.Services.AddScoped<ICandidateBL, CandidateBL>();
 builder.Services.AddScoped<IWorkExperientDL, WorkExperientDL>();
 builder.Services.AddScoped<IRecruitmentDetailDL, RecruitmentDetailDL>();
 builder.Services.AddScoped<IRecruitmentDetailBL, RecruitmentDetailBL>();
+builder.Services.AddScoped<IRecruitmentBroadDL, RecruitmentBroadDL>();
+builder.Services.AddScoped<ICandidateScheduleBL, CandidateScheduleBL>();
+builder.Services.AddScoped<ICandidateScheduleDL, CandidateScheduleDL>();
+builder.Services.AddScoped<ICandidateScheduleDetailDL, CandidateScheduleDetailDL>();
+builder.Services.AddScoped<ICandidateScheduleDetailBL, CandidateScheduleDetailBL>();
+builder.Services.AddScoped<IReportBL, ReportBL>();
+builder.Services.AddScoped<IReportDL, ReportDL>();
+builder.Services.AddScoped<IEmailBL, EmailBL>();
+builder.Services.AddScoped<IEmailDL, EmailDL>();
+builder.Services.AddScoped<IImportBL, ImportBL>();
+
+
+
 
 // Lấy dữ liệu từ connectionString từ file appsetting.Development.json
 DatabaseContext.ConnectionString = builder.Configuration.GetConnectionString("MySQL");

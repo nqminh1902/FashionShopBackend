@@ -1,7 +1,10 @@
 ﻿using FashionShopBL.BaseBL;
 using FashionShopCommon;
+using FashionShopCommon.Entities;
 using FashionShopCommon.Entities.DTO;
+using FashionShopCommon.Enums;
 using FashionShopCommon.ExtentionMethod;
+using FashionShopDL.RecruitmentBroadDL;
 using FashionShopDL.RecruitmentDL;
 using FashionShopDL.RecruitmentPeriodDL;
 using FashionShopDL.RecruitmentRoundDL;
@@ -19,12 +22,14 @@ namespace FashionShopBL.RecruitmentBL
         private IRecruitmentDL _recruitmentDL;
         private IRecruitmentPeriodDL _periodDL;
         private IRecruitmentRoundDL _roundDL;
-        public RecruitmentBL(IRecruitmentDL recruitmentDL, IRecruitmentPeriodDL recruitmentPeriodDL, IRecruitmentRoundDL recruitmentRoundDL): base(recruitmentDL)
+        private IRecruitmentBroadDL _recruitmentBroadDL;
+        public RecruitmentBL(IRecruitmentDL recruitmentDL, IRecruitmentPeriodDL recruitmentPeriodDL, IRecruitmentRoundDL recruitmentRoundDL, IRecruitmentBroadDL recruitmentBroadDL): base(recruitmentDL)
         {
 
             _recruitmentDL = recruitmentDL;
             _periodDL = recruitmentPeriodDL;
             _roundDL = recruitmentRoundDL;
+            _recruitmentBroadDL = recruitmentBroadDL;
 
         }
 
@@ -48,6 +53,14 @@ namespace FashionShopBL.RecruitmentBL
                         item.RecruitmentID = (int)res.Data;
                     }
                     _roundDL.InsertMultipleRecord(record.RecruitmentRounds);
+                }
+                if (record.RecruitmentBroads != null && record.RecruitmentBroads.Any())
+                {
+                    foreach (var item in record.RecruitmentBroads)
+                    {
+                        item.RecruitmentID = (int)res.Data;
+                    }
+                    _recruitmentBroadDL.InsertMultipleRecord(record.RecruitmentBroads);
                 }
             }
             return res;
@@ -77,6 +90,44 @@ namespace FashionShopBL.RecruitmentBL
                     }
 
                 }
+                if (record.RecruitmentPeriods != null && record.RecruitmentPeriods.Any())
+                {
+                    foreach (RecruitmentPeriod period in record.RecruitmentPeriods)
+                    {
+                        if(period.State == StateEnum.Insert)
+                        {
+                            period.RecruitmentID = recordID;
+                            _periodDL.InsertRecord(period);
+                        }
+                        else if(period.State == StateEnum.Update)
+                        {
+                            _periodDL.UpdateRecord(period.RecruitmentPeriodID, period);
+                        }
+                        else if (period.State == StateEnum.Delete)
+                        {
+                            _periodDL.DeleteRecord(period.RecruitmentPeriodID);
+                        }
+                    }
+                }
+                if (record.RecruitmentBroads != null && record.RecruitmentBroads.Any())
+                {
+                    foreach (RecruitmentBroad broad in record.RecruitmentBroads)
+                    {
+                        if (broad.State == StateEnum.Insert)
+                        {
+                            broad.RecruitmentID = recordID;
+                            _recruitmentBroadDL.InsertRecord(broad);
+                        }
+                        else if (broad.State == StateEnum.Update)
+                        {
+                            _recruitmentBroadDL.UpdateRecord(broad.RecruitmentBroadID, broad);
+                        }
+                        else if (broad.State == StateEnum.Delete)
+                        {
+                            _recruitmentBroadDL.DeleteRecord(broad.RecruitmentBroadID);
+                        }
+                    }
+                }
             }
             return res;
         }
@@ -103,7 +154,7 @@ namespace FashionShopBL.RecruitmentBL
                         item.RecruitmentRounds = new List<RecruitmentRound>();
                     }
 
-                    var periodParam = BuildWhereParameter(new PagingRequest() { PageSize = 1000, PageIndex = 1, CustomFilter = base64String, SearchValue = "" });
+                    var periodParam = BuildWhereParameter(new PagingRequest() { PageSize = 1000, PageIndex = 1, CustomFilter = base64String, SearchValue = "", SortOrder = new List<string>() { "ModifiedDate ASC" } });
                     PagingResult period = _periodDL?.GetPaging(periodParam);
                     if (period != null && period.Data != null)
                     {
@@ -121,6 +172,16 @@ namespace FashionShopBL.RecruitmentBL
                 Success = true,
                 Data = pagingResult
             };
+        }
+
+        public ServiceResponse getRecruitmentBroad(int recruitmentID)
+        {
+            return _recruitmentDL.getRecruitmentBroad(recruitmentID);
+        }
+
+        public ServiceResponse updateRecruitmentStatus(int recruitmentID, int status)
+        {
+            return _recruitmentDL.updateRecruitmentStatus(recruitmentID, status);
         }
     }
 }

@@ -116,7 +116,7 @@ namespace FashionShopBL.BaseBL
 
             foreach (var record in records)
             {
-                var response = _baseDL.InsertRecord(record);
+                var response = InsertRecord(record);
                 if (!response.Success)
                 {
                     return new ServiceResponse()
@@ -270,7 +270,7 @@ namespace FashionShopBL.BaseBL
             }
             else
             {
-                parameters.Add("v_where", $"{sordCondition};");
+                parameters.Add("v_where", $" {sordCondition};");
             }
 
             return parameters;

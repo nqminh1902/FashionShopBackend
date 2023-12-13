@@ -1,7 +1,10 @@
 ﻿using FashionShopBL.BaseBL;
+using FashionShopBL.EmailBL;
 using FashionShopCommon;
 using FashionShopCommon.Enums;
 using FashionShopDL.CandidateDL;
+using FashionShopDL.EmailDL;
+using FashionShopDL.RecruitmentDetailDL;
 using FashionShopDL.WorkExperientDL;
 using System;
 using System.Collections.Generic;
@@ -15,10 +18,14 @@ namespace FashionShopBL.CandidateBL
     {
         private ICandidateDL _candidateDL;
         private IWorkExperientDL _workExperientDL;
-        public CandidateBL(ICandidateDL candidateDL, IWorkExperientDL workExperientDL) : base(candidateDL) 
+        private IRecruitmentDetailDL _recruitmentDetailDL;
+        private IEmailBL _emailBL;
+        public CandidateBL(ICandidateDL candidateDL, IWorkExperientDL workExperientDL, IRecruitmentDetailDL recruitmentDetailDL, IEmailBL emailBL) : base(candidateDL) 
         {
             _workExperientDL = workExperientDL;
             _candidateDL = candidateDL;
+            _recruitmentDetailDL = recruitmentDetailDL;
+            _emailBL = emailBL;
         }
 
         public override ServiceResponse InsertRecord(Candidate record)
@@ -34,6 +41,19 @@ namespace FashionShopBL.CandidateBL
                         item.CandidateID = (int)res.Data;
                     }
                     _workExperientDL.InsertMultipleRecord(record.WorkExperients);
+                }
+
+                if (record.RecruitmentDetail != null)
+                {
+                    record.RecruitmentDetail.CandidateID = (int)res.Data;
+                    record.RecruitmentDetail.ChannelID = (int)record.ChannelID;
+                    record.RecruitmentDetail.ApplyDate = DateTime.Now;
+                    _recruitmentDetailDL.InsertRecord(record.RecruitmentDetail);
+                    if (!string.IsNullOrEmpty(record.Email))
+                    {
+                        _emailBL.SendEmail(record.Email, EmailType.EmailRecruitment, record);
+
+                    }
                 }
             }
 

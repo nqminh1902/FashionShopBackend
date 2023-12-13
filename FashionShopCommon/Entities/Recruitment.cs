@@ -38,12 +38,14 @@ namespace FashionShopCommon
         public string? RankName { get; set; }
         public int? CarrerID { get; set; }
         public string? CarrerName { get; set; }
-
+        public int? Status { get; set; }
         public int? WorkLocationID { get; set; }
         public string? WorkLocationName { get; set; }
         [DetailTable]
         public List<RecruitmentRound>? RecruitmentRounds { get; set; }
         [DetailTable]
         public List<RecruitmentPeriod>? RecruitmentPeriods { get; set; }
+        [DetailTable]
+        public List<RecruitmentBroad>? RecruitmentBroads { get; set; }
     }
 }

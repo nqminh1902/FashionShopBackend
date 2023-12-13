@@ -71,7 +71,7 @@ namespace FashionShopDL.BaseDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var record = mySqlConnection.QueryFirstOrDefault(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var record = mySqlConnection.QueryFirstOrDefault<T>(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -136,29 +136,27 @@ namespace FashionShopDL.BaseDL
             var parameters = new DynamicParameters();
             parameters.Add($"v_{typeof(T).Name}ID", recordID);
 
-
-            int numberOfRowsAffected = 0;
             // Khời tạo kết nối tới DB MySQL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                numberOfRowsAffected = mySqlConnection.Execute(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-
-            }
-
-            //Thành công: Trả về Id nhân viên thêm thành công
-            if (numberOfRowsAffected > 0)
-            {
+                var numberOfRowsAffected = mySqlConnection.Execute(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                //Thành công: Trả về Id nhân viên thêm thành công
+                if (numberOfRowsAffected > 0)
+                {
+                    return new ServiceResponse()
+                    {
+                        Success = true,
+                        Data = recordID
+                    };
+                }
                 return new ServiceResponse()
                 {
-                    Success = true,
+                    Success = false,
                     Data = recordID
                 };
+
             }
-            return new ServiceResponse()
-            {
-                Success = false,
-                Data = recordID
-            };
+
         }
 
         /// <summary>
@@ -167,15 +165,10 @@ namespace FashionShopDL.BaseDL
         /// <param name="">Danh sách ID</param>
         /// <returns>Danh sách ID xóa thành công</returns>
         /// CreateBy: Nguyễn Quang Minh (15/11/2022)
-        public ServiceResponse DeleteMultiple(List<int> ids)
+        public virtual ServiceResponse DeleteMultiple(List<int> ids)
         {
 
             MySqlTransaction transaction = null;
-
-            foreach (int id in ids)
-            {
-                ids.Add(id);
-            }
 
             var str = string.Join("','", ids);
 
@@ -229,7 +222,7 @@ namespace FashionShopDL.BaseDL
             {
                 Success = false,
                 Data = ids
-            }; ;
+            };
         }
 
         /// <summary>
@@ -251,8 +244,6 @@ namespace FashionShopDL.BaseDL
             // Khởi tạo biến lưu giá trị
             object propValue;
 
-            // Tạo id mới
-            var newRecordID = Guid.NewGuid();
 
             foreach (var prop in properties)
             {
@@ -262,7 +253,7 @@ namespace FashionShopDL.BaseDL
                 // Nếu có thì lưu id mới
                 if (keyAtrribute != null)
                 {
-                    propValue = newRecordID;
+                    continue;
                 }
                 if (detailTableAtrribute != null)
                 {
@@ -286,7 +277,7 @@ namespace FashionShopDL.BaseDL
                 // Thực hiện gọi vào DB
                 var result = mySqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 // return kết quả
-                if (result != null)
+                if (result > 0)
                 {
                     transaction.Commit();
                     mySqlConnection.Close();
@@ -428,7 +419,7 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
-        public PagingResult GetPaging(DynamicParameters parameter)
+        public virtual PagingResult GetPaging(DynamicParameters parameter)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(T).Name);

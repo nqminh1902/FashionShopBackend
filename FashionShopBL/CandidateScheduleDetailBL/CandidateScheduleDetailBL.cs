@@ -1,0 +1,117 @@
+﻿using FashionShopBL.BaseBL;
+using FashionShopBL.CandidateBL;
+using FashionShopBL.EmailBL;
+using FashionShopCommon;
+using FashionShopCommon.Entities.DTO;
+using FashionShopCommon.Enums;
+using FashionShopCommon.ExtentionMethod;
+using FashionShopDL.CandidateScheduleDetailDL;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FashionShopBL.CandidateScheduleDetailBL
+{
+    public class CandidateScheduleDetailBL:BaseBL<CandidateScheduleDetail>, ICandidateScheduleDetailBL
+    {
+        private ICandidateScheduleDetailDL _candidateScheduleDetailDL;
+        private IEmailBL _emailBL;
+        private ICandidateBL _candidateBL;
+        public CandidateScheduleDetailBL(ICandidateScheduleDetailDL candidateScheduleDetailDL, IEmailBL emailBL, ICandidateBL candidateBL) :base(candidateScheduleDetailDL)
+        {
+            _candidateScheduleDetailDL = candidateScheduleDetailDL;
+            _emailBL = emailBL;
+            _candidateBL = candidateBL;
+        }
+
+        public override ServiceResponse GetPaging(PagingRequest pagingRequest)
+        {
+            var param = BuildWhereParameter(pagingRequest);
+            var startDate = pagingRequest.CustomParam?["startDate"];
+            var endDate = pagingRequest.CustomParam?["endDate"];
+            if (startDate != null && endDate != null)
+            {
+                var l = startDate.ToString();
+                var r = endDate.ToString();
+                param.Add("v_StartDate", DateTime.Parse(l));
+                param.Add("v_EndDate", DateTime.Parse(r));
+                param.Add("v_RecruitmentID", 0);
+            }
+
+            var pagingResult = _candidateScheduleDetailDL.GetPaging(param);
+            if (pagingResult.TotalCount > 0)
+            {
+                return new ServiceResponse()
+                {
+                    Success = true,
+                    Data = pagingResult
+                };
+            }
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = pagingResult
+            };
+        }
+
+        public ServiceResponse GetSheduleDetailByRecruitment(PagingRequest pagingRequest)
+        {
+            var param = BuildWhereParameter(pagingRequest);
+            var startDate = pagingRequest.CustomParam?["startDate"];
+            var endDate = pagingRequest.CustomParam?["endDate"];
+            var recruitmentID = pagingRequest.CustomParam?["recruitmentID"];
+            var periodID = pagingRequest.CustomParam?["periodID"];
+            if (startDate != null && endDate != null && periodID != null && recruitmentID != null)
+            {
+                var s = startDate.ToString();
+                var e = endDate.ToString();
+                var r = recruitmentID.ToString();
+                var p = periodID.ToString();
+
+                param.Add("v_StartDate", DateTime.Parse(s));
+                param.Add("v_EndDate", DateTime.Parse(e));
+                param.Add("v_RecruitmentID", Int32.Parse(r));
+                param.Add("v_PeriodID", Int32.Parse(p));
+            }
+            return  _candidateScheduleDetailDL.GetSheduleDetailByRecruitment(param);
+           
+        }
+
+        public override ServiceResponse InsertRecord(CandidateScheduleDetail record)
+        {
+            var res = base.InsertRecord(record);
+
+            if(res.Success && record.IsNotifyCandidate)
+            {
+                Candidate can = (Candidate)_candidateBL.GetRecordByID(record.CandidateID).Data;
+                if (can != null && !string.IsNullOrEmpty(can.Email))
+                {
+                    record.CandidateName = can.CandidateName;
+                    _emailBL.SendEmail(can.Email, EmailType.EmailInterview, record);
+                }
+            }
+
+            return res;
+        }
+
+        public override ServiceResponse UpdateRecord(int recordID, CandidateScheduleDetail record)
+        {
+            var res = base.UpdateRecord(recordID, record);
+
+            if (res.Success && record.IsNotifyCandidate)
+            {
+                Candidate can = (Candidate)_candidateBL.GetRecordByID(recordID).Data;
+                if (can != null && !string.IsNullOrEmpty(can.Email))
+                {
+                    record.CandidateName = can.CandidateName;
+                    _emailBL.SendEmail(can.Email, EmailType.EmailInterview, record);
+                }
+            }
+
+            return res;
+        }
+    }
+}

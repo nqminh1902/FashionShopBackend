@@ -53,3 +53,9 @@ D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\unix\li
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\EPPlus.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\EPPlus.Interfaces.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

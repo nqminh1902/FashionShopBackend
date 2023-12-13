@@ -20,6 +20,9 @@ namespace FashionShopCommon
         [CancelUpdate]
         public bool IsSystem { get; set; }
         public int SordOrder { get; set; }
+        [CancelUpdate]
+        public bool IsHired { get; set; }
+
 
     }
 }
