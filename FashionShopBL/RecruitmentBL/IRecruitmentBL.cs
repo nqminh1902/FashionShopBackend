@@ -10,7 +10,7 @@ namespace FashionShopBL.RecruitmentBL
 {
     public interface IRecruitmentBL: IBaseBL<Recruitment>
     {
-        public ServiceResponse getRecruitmentBroad(int recruitmentID);
-        public ServiceResponse updateRecruitmentStatus(int recruitmentID, int status);
+        public Task<ServiceResponse> getRecruitmentBroad(int recruitmentID);
+        public Task<ServiceResponse> updateRecruitmentStatus(int recruitmentID, int status);
     }
 }

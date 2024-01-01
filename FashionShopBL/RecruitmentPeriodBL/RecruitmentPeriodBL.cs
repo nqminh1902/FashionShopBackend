@@ -1,6 +1,5 @@
 ﻿using FashionShopBL.BaseBL;
 using FashionShopCommon;
-using FashionShopDL.ProductSizeDL;
 using FashionShopDL.RecruitmentPeriodDL;
 using System;
 using System.Collections.Generic;

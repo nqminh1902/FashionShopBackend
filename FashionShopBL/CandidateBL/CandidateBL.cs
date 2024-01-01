@@ -28,9 +28,14 @@ namespace FashionShopBL.CandidateBL
             _emailBL = emailBL;
         }
 
-        public override ServiceResponse InsertRecord(Candidate record)
+        public async Task<ServiceResponse> GetByIDs(List<int> ids)
         {
-            var res = _candidateDL.InsertRecord(record);
+            return await _candidateDL.GetByIDs(ids);
+        }
+
+        public override async Task<ServiceResponse> InsertRecord(Candidate record)
+        {
+            var res = await _candidateDL.InsertRecord(record);
 
             if (res != null && res.Success)
             {
@@ -40,7 +45,7 @@ namespace FashionShopBL.CandidateBL
                     {
                         item.CandidateID = (int)res.Data;
                     }
-                    _workExperientDL.InsertMultipleRecord(record.WorkExperients);
+                    await _workExperientDL.InsertMultipleRecord(record.WorkExperients);
                 }
 
                 if (record.RecruitmentDetail != null)
@@ -48,10 +53,13 @@ namespace FashionShopBL.CandidateBL
                     record.RecruitmentDetail.CandidateID = (int)res.Data;
                     record.RecruitmentDetail.ChannelID = (int)record.ChannelID;
                     record.RecruitmentDetail.ApplyDate = DateTime.Now;
-                    _recruitmentDetailDL.InsertRecord(record.RecruitmentDetail);
+                    await _recruitmentDetailDL.InsertRecord(record.RecruitmentDetail);
                     if (!string.IsNullOrEmpty(record.Email))
                     {
-                        _emailBL.SendEmail(record.Email, EmailType.EmailRecruitment, record);
+                        _ = Task.Run(() =>
+                        {
+                            _emailBL.SendEmail(record.Email, EmailType.EmailRecruitment, record);
+                        });
 
                     }
                 }
@@ -60,9 +68,9 @@ namespace FashionShopBL.CandidateBL
             return res;
         }
 
-        public override ServiceResponse UpdateRecord(int recordID, Candidate record)
+        public override async Task<ServiceResponse> UpdateRecord(int recordID, Candidate record)
         {
-            var res = base.UpdateRecord(recordID, record);
+            var res = await base.UpdateRecord(recordID, record);
 
             if (res != null && res.Success)
             {
@@ -73,13 +81,13 @@ namespace FashionShopBL.CandidateBL
                         if(item.State == StateEnum.Insert)
                         {
                             item.CandidateID = recordID;
-                            _workExperientDL.InsertRecord(item);
+                            await _workExperientDL.InsertRecord(item);
                         }else if(item.State == StateEnum.Update)
                         {
-                            _workExperientDL.UpdateRecord((int)item.WorkExperientID, item);
+                            await _workExperientDL.UpdateRecord((int)item.WorkExperientID, item);
                         }else if( item.State == StateEnum.Delete)
                         {
-                            _workExperientDL.DeleteRecord((int)item.WorkExperientID);
+                            await _workExperientDL.DeleteRecord((int)item.WorkExperientID);
                         }
                     }
                 }

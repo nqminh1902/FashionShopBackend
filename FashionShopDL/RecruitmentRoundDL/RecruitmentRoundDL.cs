@@ -1,7 +1,6 @@
 ﻿using FashionShopCommon;
 using FashionShopCommon.Entities;
 using FashionShopDL.BaseDL;
-using FashionShopDL.ProductSizeDL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

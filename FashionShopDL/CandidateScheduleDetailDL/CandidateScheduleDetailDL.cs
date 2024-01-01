@@ -14,7 +14,7 @@ namespace FashionShopDL.CandidateScheduleDetailDL
 {
     public class CandidateScheduleDetailDL : BaseDL<CandidateScheduleDetail>, ICandidateScheduleDetailDL
     {
-        public ServiceResponse GetSheduleDetailByRecruitment(DynamicParameters parameters)
+        public async Task<ServiceResponse> GetSheduleDetailByRecruitment(DynamicParameters parameters)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_CandidateScheduleDetail_GetByRecruitment";
@@ -22,7 +22,7 @@ namespace FashionShopDL.CandidateScheduleDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var multipleResult = mysqlConnection.QueryMultiple(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mysqlConnection.QueryMultipleAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (multipleResult != null)
                 {

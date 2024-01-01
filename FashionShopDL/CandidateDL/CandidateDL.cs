@@ -12,7 +12,41 @@ namespace FashionShopDL.CandidateDL
 {
     public class CandidateDL: BaseDL<Candidate>, ICandidateDL
     {
-        public override ServiceResponse GetRecordByID(int recordID)
+
+        public async Task<ServiceResponse> GetByIDs(List<int> ids)
+        {
+            var str = string.Join(",", ids);
+
+            //Chuẩn bị câu lệnh SQL
+            string sql = $" Select * FROM candidate WHERE CandidateID IN ({str});";
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+
+                //Thực hiện gọi vào DB
+                var res = await mySqlConnection.QueryAsync<Candidate>(sql);
+                //Xử lý kết quả trả về
+
+                //Thành công: Trả về Id nhân viên thêm thành công
+                if (res != null)
+                {
+                    var candidate = res.ToList();
+                    return new ServiceResponse()
+                    {
+                        Success = true,
+                        Data = candidate
+                    };
+                }
+                return new ServiceResponse()
+                {
+                    Success = false,
+                    Data = ids
+                };
+            }
+        } 
+
+        public override async Task<ServiceResponse> GetRecordByID(int recordID)
         {
             // Chuẩn bị câu lệnh SQL
             string storeProcedureName = "Proc_Candidate_GetByID";
@@ -25,7 +59,7 @@ namespace FashionShopDL.CandidateDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var multipleResult = mySqlConnection.QueryMultiple(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mySqlConnection.QueryMultipleAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -50,14 +84,14 @@ namespace FashionShopDL.CandidateDL
             }
         }
 
-        public override ServiceResponse DeleteMultiple(List<int> ids)
+        public override async Task<ServiceResponse> DeleteMultiple(List<int> ids)
         {
             MySqlTransaction transaction = null;
 
-            var str = string.Join("','", ids);
+            var str = string.Join(",", ids);
 
             //Chuẩn bị câu lệnh SQL
-            string sql = $" DELETE FROM candiate WHERE CandidateID IN ('{str}'); DELETE FROM recruitment-detail WHERE CandidateID IN ('{str}');";
+            string sql = $" DELETE FROM `candidate` WHERE CandidateID IN ({str}); DELETE FROM `recruitment-detail` WHERE CandidateID IN ({str});";
 
             int numberOfRowsAffected = 0;
 
@@ -69,7 +103,7 @@ namespace FashionShopDL.CandidateDL
                 {
                     transaction = mySqlConnection.BeginTransaction();
                     //Thực hiện gọi vào DB
-                    numberOfRowsAffected = mySqlConnection.Execute(sql, transaction: transaction);
+                    numberOfRowsAffected = await mySqlConnection.ExecuteAsync(sql, transaction: transaction);
                     if (numberOfRowsAffected == ids.Count)
                     {
                         transaction.Commit();

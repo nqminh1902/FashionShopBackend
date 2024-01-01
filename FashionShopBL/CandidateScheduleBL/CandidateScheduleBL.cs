@@ -30,9 +30,9 @@ namespace FashionShopBL.CandidateScheduleBL
             _candidateBL = candidateBL;
         }
 
-        public override ServiceResponse InsertRecord(CandidateSchedule record)
+        public override async Task<ServiceResponse> InsertRecord(CandidateSchedule record)
         {
-            var res = _candidateScheduleDL.InsertRecord(record);
+            var res = await _candidateScheduleDL.InsertRecord(record);
             if (res.Success)
             {
                 if (record.candidateScheduleDetails != null && record.candidateScheduleDetails.Any())
@@ -41,27 +41,37 @@ namespace FashionShopBL.CandidateScheduleBL
                     {
                         item.CandidateScheduleID = (int)res.Data;
                     }
-                    _candidateScheduleDetailDL.InsertMultipleRecord(record.candidateScheduleDetails);
+                    await _candidateScheduleDetailDL.InsertMultipleRecord(record.candidateScheduleDetails);
                 }
 
                 if (res.Success && record.IsNotifyCandidate)
                 {
                     foreach (var item in record.candidateScheduleDetails)
                     {
-                        Candidate can = (Candidate)_candidateBL.GetRecordByID(item.CandidateID).Data;
+                        var data = await _candidateBL.GetRecordByID(item.CandidateID);
+                        Candidate can = (Candidate)data.Data;
                         if (can != null && !string.IsNullOrEmpty(can.Email))
                         {
-                            var candidate = new
-                            {
-                                ScheduleName = record.ScheduleName,
-                                JobPositionName = record.JobPositionName,
-                                CandidateName = can.CandidateName,
-                                StartTime = record.StartTime.ToString("dd/M/yyyy", CultureInfo.InvariantCulture),
-                                Address = record.Address,
-                                Room = record.Room,
-                                CandidateNumber = record.candidateScheduleDetails?.Count
-                            };
-                            _emailBL.SendEmail(can.Email, EmailType.EmailInterview, candidate);
+                            _ = Task.Run(() => { 
+                                var candidate = new
+                                {
+                                    ScheduleName = record.ScheduleName,
+                                    JobPositionName = record.JobPositionName,
+                                    CandidateName = can.CandidateName,
+                                    EvaluationDate = record.EvaluationDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                                    StartTime = record.StartTime.ToString("HH:mm"),
+                                    Address = record.Address,
+                                    Room = record.Room
+                                };
+                                if (record.ScheduleType == 3)
+                                {
+                                    _emailBL.SendEmail(can.Email, EmailType.EmailTraning, candidate);
+                                }
+                                else
+                                {
+                                    _emailBL.SendEmail(can.Email, EmailType.EmailInterview, candidate);
+                                }
+                            });
                         }
                         
                     }
@@ -71,18 +81,21 @@ namespace FashionShopBL.CandidateScheduleBL
                 {
                     foreach(var item in record.recruitmentBroads)
                     {
-                        var council = new
+                        _ = Task.Run(() =>
                         {
-                            ScheduleName = record.ScheduleName,
-                            JobPositionName = record.JobPositionName,
-                            FullName = item.FullName,
-                            StartTime= record.StartTime.ToString("dd/M/yyyy", CultureInfo.InvariantCulture),
-                            Address = record.Address,
-                            Room = record.Room,
-                            Time = record.StartTime.ToString("dd/M/yyyy", CultureInfo.InvariantCulture),
-                            CandidateNumber = record.candidateScheduleDetails?.Count
-                        };
-                        _emailBL.SendEmail(item.Email, EmailType.EmailCouncil, council);
+                            var council = new
+                            {
+                                ScheduleName = record.ScheduleName,
+                                JobPositionName = record.JobPositionName,
+                                FullName = item.FullName,
+                                EvaluationDate = record.EvaluationDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                                Address = record.Address,
+                                Room = record.Room,
+                                StartTime = record.StartTime.ToString("HH:mm"),
+                                CandidateNumber = record.candidateScheduleDetails?.Count
+                            };
+                            _emailBL.SendEmail(item.Email, EmailType.EmailCouncil, council);
+                        });
                     }
                 }
             }

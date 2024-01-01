@@ -18,7 +18,7 @@ namespace FashionShopDL.RecruitmentDetailDL
 {
     public class RecruitmentDetailDL: BaseDL<RecruitmentDetail>, IRecruitmentDetailDL
     {
-        public ServiceResponse getTotalCandidateByRound(int recruitmentID, int status, int period)
+        public async Task<ServiceResponse> getTotalCandidateByRound(int recruitmentID, int status, int period)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_GetRound";
@@ -30,7 +30,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var multipleResult = mysqlConnection.QueryMultiple(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mysqlConnection.QueryMultipleAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (multipleResult != null)
                 {
@@ -49,7 +49,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse ChangeRound(int id, RecruitmentRound round)
+        public async Task<ServiceResponse> ChangeRound(int id, RecruitmentRound round)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_ChangeRound";
@@ -62,7 +62,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Execute(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.ExecuteAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (res > 0)
                 {
@@ -81,7 +81,7 @@ namespace FashionShopDL.RecruitmentDetailDL
         }
 
 
-        public ServiceResponse GetEliminate()
+        public async Task<ServiceResponse> GetEliminate()
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_GetEliminate";
@@ -90,7 +90,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.QueryAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (res != null)
                 {
@@ -108,7 +108,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse EliminateCandiadte(int recordId, int id, int recruitmentID)
+        public async Task<ServiceResponse> EliminateCandiadte(int recordId, int id, int recruitmentID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_EliminateCandiadte";
@@ -121,38 +121,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
-
-                if (res != null)
-                {
-                    return new ServiceResponse()
-                    {
-                        Success = true,
-                        Data = res
-                    };
-                }
-            }
-            return new ServiceResponse()
-            {
-                Success = false,
-                Data = null
-            };
-        }
-
-        public ServiceResponse TransferToEmployee(int recordId, int id, int recruitmentID)
-        {
-            //Chuẩn bị câu lệnh sql
-            string storeProcedureName = "Proc_RecruitmentDetail_Employee";
-            var parameter = new DynamicParameters();
-            parameter.Add("v_recordID", recordId);
-            parameter.Add("v_candidateID", id);
-            parameter.Add("v_recruitmentID", recruitmentID);
-
-
-            // Khời tạo kết nối tới DB MySQL
-            using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
-            {
-                var res = mysqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.QueryFirstOrDefaultAsync<int>(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (res > 0)
                 {
@@ -170,16 +139,47 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse getByCandidateID(int id)
+        public async Task<ServiceResponse> TransferToEmployee(int recordId, int id, int recruitmentID)
         {
             //Chuẩn bị câu lệnh sql
-            string sql = $"SELECT r.*, r1.Title FROM `recruitment-detail` r INNER JOIN recruitment r1 WHERE r.CandidateID = {id};";
+            string storeProcedureName = "Proc_RecruitmentDetail_Employee";
+            var parameter = new DynamicParameters();
+            parameter.Add("v_recordID", recordId);
+            parameter.Add("v_candidateID", id);
+            parameter.Add("v_recruitmentID", recruitmentID);
 
 
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Query(sql);
+                var res = await mysqlConnection.QueryFirstOrDefaultAsync<int>(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+
+                if (res > 0)
+                {
+                    return new ServiceResponse()
+                    {
+                        Success = true,
+                        Data = res
+                    };
+                }
+            }
+            return new ServiceResponse()
+            {
+                Success = false,
+                Data = null
+            };
+        }
+
+        public async Task<ServiceResponse> getByCandidateID(int id)
+        {
+            //Chuẩn bị câu lệnh sql
+            string sql = $"SELECT r.*, r1.Title FROM `recruitment-detail` r LEFT JOIN recruitment r1 ON r.RecruitmentID = r1.RecruitmentID WHERE r.CandidateID = {id};";
+
+
+            // Khời tạo kết nối tới DB MySQL
+            using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                var res = await mysqlConnection.QueryAsync(sql);
 
                 if (res != null)
                 {
@@ -197,7 +197,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse ContinueRecruit(int id, int recruitmentID)
+        public async Task<ServiceResponse> ContinueRecruit(int id, int recruitmentID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_ContinueRecruit";
@@ -209,9 +209,9 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.ExecuteAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
-                if (res != null)
+                if (res > 0)
                 {
                     return new ServiceResponse()
                     {
@@ -227,7 +227,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse RemoveFromRecruitment(int id, int recruitmentID)
+        public async Task<ServiceResponse> RemoveFromRecruitment(int id, int recruitmentID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_RemoveFromRecruitment";
@@ -239,9 +239,9 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res =  await mysqlConnection.ExecuteAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
-                if (res != null)
+                if (res > 0)
                 {
                     return new ServiceResponse()
                     {
@@ -257,7 +257,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse RevokeEmployee(int id, int recruitmentID)
+        public async Task<ServiceResponse> RevokeEmployee(int id, int recruitmentID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_RecruitmentDetail_RevokeEmployee";
@@ -269,9 +269,9 @@ namespace FashionShopDL.RecruitmentDetailDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.ExecuteAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
-                if (res != null)
+                if (res > 0)
                 {
                     return new ServiceResponse()
                     {
@@ -287,7 +287,7 @@ namespace FashionShopDL.RecruitmentDetailDL
             };
         }
 
-        public ServiceResponse ChangeRecruitment(int id, int recruitmentID, int recruitmentRound, int choose, int period)
+        public async Task<ServiceResponse> ChangeRecruitment(int id, int recruitmentID, int recruitmentRound, int choose, int period)
         {
             MySqlTransaction transaction = null;
             // Khời tạo kết nối tới DB MySQL
@@ -303,7 +303,7 @@ namespace FashionShopDL.RecruitmentDetailDL
                 parameter.Add("v_recruitmentRoundID", recruitmentRound);
                 parameter.Add("v_recruitmentPeriodID", period != 0 ? period : null);
                 parameter.Add("v_choose", choose);
-                var res = mysqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameter, transaction, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.QueryFirstOrDefaultAsync<int>(storeProcedureName, parameter, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 if (res != 0)
                 {
                     transaction.Commit();

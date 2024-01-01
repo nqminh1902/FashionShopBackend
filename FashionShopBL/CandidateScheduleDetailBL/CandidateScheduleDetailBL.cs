@@ -9,6 +9,7 @@ using FashionShopDL.CandidateScheduleDetailDL;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace FashionShopBL.CandidateScheduleDetailBL
             _candidateBL = candidateBL;
         }
 
-        public override ServiceResponse GetPaging(PagingRequest pagingRequest)
+        public override async Task<ServiceResponse> GetPaging(PagingRequest pagingRequest)
         {
             var param = BuildWhereParameter(pagingRequest);
             var startDate = pagingRequest.CustomParam?["startDate"];
@@ -41,7 +42,7 @@ namespace FashionShopBL.CandidateScheduleDetailBL
                 param.Add("v_RecruitmentID", 0);
             }
 
-            var pagingResult = _candidateScheduleDetailDL.GetPaging(param);
+            var pagingResult = await _candidateScheduleDetailDL.GetPaging(param);
             if (pagingResult.TotalCount > 0)
             {
                 return new ServiceResponse()
@@ -57,7 +58,7 @@ namespace FashionShopBL.CandidateScheduleDetailBL
             };
         }
 
-        public ServiceResponse GetSheduleDetailByRecruitment(PagingRequest pagingRequest)
+        public async Task<ServiceResponse> GetSheduleDetailByRecruitment(PagingRequest pagingRequest)
         {
             var param = BuildWhereParameter(pagingRequest);
             var startDate = pagingRequest.CustomParam?["startDate"];
@@ -76,38 +77,46 @@ namespace FashionShopBL.CandidateScheduleDetailBL
                 param.Add("v_RecruitmentID", Int32.Parse(r));
                 param.Add("v_PeriodID", Int32.Parse(p));
             }
-            return  _candidateScheduleDetailDL.GetSheduleDetailByRecruitment(param);
+            return await _candidateScheduleDetailDL.GetSheduleDetailByRecruitment(param);
            
         }
 
-        public override ServiceResponse InsertRecord(CandidateScheduleDetail record)
+        public override async Task<ServiceResponse> InsertRecord(CandidateScheduleDetail record)
         {
-            var res = base.InsertRecord(record);
-
-            if(res.Success && record.IsNotifyCandidate)
-            {
-                Candidate can = (Candidate)_candidateBL.GetRecordByID(record.CandidateID).Data;
-                if (can != null && !string.IsNullOrEmpty(can.Email))
-                {
-                    record.CandidateName = can.CandidateName;
-                    _emailBL.SendEmail(can.Email, EmailType.EmailInterview, record);
-                }
-            }
-
-            return res;
+            return await base.InsertRecord(record);
         }
 
-        public override ServiceResponse UpdateRecord(int recordID, CandidateScheduleDetail record)
+        public override async Task<ServiceResponse> UpdateRecord(int recordID, CandidateScheduleDetail record)
         {
-            var res = base.UpdateRecord(recordID, record);
+            var res = await base.UpdateRecord(recordID, record);
 
             if (res.Success && record.IsNotifyCandidate)
             {
-                Candidate can = (Candidate)_candidateBL.GetRecordByID(recordID).Data;
+                var data = await _candidateBL.GetRecordByID(record.CandidateID);
+                Candidate can = (Candidate)data.Data;
                 if (can != null && !string.IsNullOrEmpty(can.Email))
                 {
-                    record.CandidateName = can.CandidateName;
-                    _emailBL.SendEmail(can.Email, EmailType.EmailInterview, record);
+                    _ = Task.Run(() =>
+                    {
+                        var candidate = new
+                        {
+                            ScheduleName = record.ScheduleName,
+                            JobPositionName = record.JobPositionName,
+                            CandidateName = can.CandidateName,
+                            EvaluationDate = record.StartTime.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                            StartTime = record.StartTime.ToString("HH:mm"),
+                            Address = record.Address,
+                            Room = record.Room,
+                        };
+                        if (record.ScheduleType == 3)
+                        {
+                            _emailBL.SendEmail(can.Email, EmailType.EmailTraning, record);
+                        }
+                        else
+                        {
+                           _emailBL.SendEmail(can.Email, EmailType.EmailInterview, record);
+                        }
+                    });
                 }
             }
 

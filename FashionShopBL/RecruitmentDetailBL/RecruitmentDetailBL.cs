@@ -28,12 +28,12 @@ namespace FashionShopBL.RecruitmentDetailBL
             _emailBL = emailBL;
         }
 
-        public ServiceResponse getTotalCandidateByRound(int recruitmentID, int status, int period)
+        public async Task<ServiceResponse> getTotalCandidateByRound(int recruitmentID, int status, int period)
         {
-            return _recruitmentDetail.getTotalCandidateByRound(recruitmentID, status, period);
+            return await _recruitmentDetail.getTotalCandidateByRound(recruitmentID, status, period);
         }
 
-        public ServiceResponse ChangeRound(ChangeRoundDTO datas)
+        public async Task<ServiceResponse> ChangeRound(ChangeRoundDTO datas)
         {
             var result = new ServiceResponse();
             var ids = datas.ids;
@@ -43,7 +43,7 @@ namespace FashionShopBL.RecruitmentDetailBL
             {
                 foreach (var id in ids)
                 {
-                    var res = _recruitmentDetail.ChangeRound(id, recruitmentRound);
+                    var res = await _recruitmentDetail.ChangeRound(id, recruitmentRound);
                     if(res.Success == false)
                     {
                         result.Success = false;
@@ -55,24 +55,26 @@ namespace FashionShopBL.RecruitmentDetailBL
             return result;
         }
 
-        public ServiceResponse GetEliminate()
+        public async Task<ServiceResponse> GetEliminate()
         {
            
-           return _recruitmentDetail.GetEliminate();
+           return await _recruitmentDetail.GetEliminate();
         }
 
-        public ServiceResponse EliminateCandiadte(int recortID, List<int> ids, int recruitmentDetailID, bool isSendMail)
+        public async Task<ServiceResponse> EliminateCandiadte(int recortID, List<int> ids, int recruitmentDetailID, bool isSendMail)
         {
             foreach (var item in ids)
             {
-                var res = _recruitmentDetail.EliminateCandiadte(recortID, item, recruitmentDetailID);
+                var res = await _recruitmentDetail.EliminateCandiadte(recortID, item, recruitmentDetailID);
                 if (res.Success && isSendMail)
                 {
-                    var can =_recruitmentDetail.GetRecordByID((int)res.Data);
+                    var can = await _recruitmentDetail.GetRecordByID((int)res.Data);
                     RecruitmentDetail recruitmentDetail = (RecruitmentDetail)can.Data;
                     if (can.Success && !string.IsNullOrEmpty(recruitmentDetail.Email))
                     {
-                        _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailEliminate, recruitmentDetail);
+                        _ = Task.Run(() => { 
+                            _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailEliminate, recruitmentDetail);
+                        });
                     }
                 }
             }
@@ -85,23 +87,25 @@ namespace FashionShopBL.RecruitmentDetailBL
 
         }
 
-        public ServiceResponse TransferToEmployee(int recortID, List<int> ids, int recruitmentID)
+        public async Task<ServiceResponse> TransferToEmployee(int recortID, List<int> ids, int recruitmentID)
         {
             foreach (var item in ids)
             {
-                var res = _recruitmentDetail.TransferToEmployee(recortID, item, recruitmentID);
+                var res = await _recruitmentDetail.TransferToEmployee(recortID, item, recruitmentID);
                 if (res.Success)
                 {
-                    var can = _recruitmentDetail.GetRecordByID((int)res.Data);
+                    var can = await _recruitmentDetail.GetRecordByID((int)res.Data);
                     RecruitmentDetail recruitmentDetail = (RecruitmentDetail)can.Data;
                     if (can.Success && !string.IsNullOrEmpty(recruitmentDetail.Email))
                     {
-                        var mergedata = new
-                        {
-                            CandidateName = recruitmentDetail.CandidateName,
-                            JobPositionName = recruitmentDetail.JobPositionName
-                        };
-                        _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailEmployee, mergedata);
+                        _ = Task.Run(() => { 
+                            var mergedata = new
+                            {
+                                CandidateName = recruitmentDetail.CandidateName,
+                                JobPositionName = recruitmentDetail.JobPositionName
+                            };
+                            _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailEmployee, mergedata);
+                        });
                     }
                 }
             }
@@ -114,20 +118,18 @@ namespace FashionShopBL.RecruitmentDetailBL
 
         }
 
-        public ServiceResponse getByCandidateID(int id)
+        public async Task<ServiceResponse> getByCandidateID(int id)
         {
 
-            var res = _recruitmentDetail.getByCandidateID(id);
-
-            return res;
+            return await _recruitmentDetail.getByCandidateID(id);
 
         }
 
-        public ServiceResponse RevokeEmployee(List<int> ids, int recruitmentID)
+        public async Task<ServiceResponse> RevokeEmployee(List<int> ids, int recruitmentID)
         {
             foreach (var item in ids)
             {
-                var res = _recruitmentDetail.RevokeEmployee(item, recruitmentID);
+                var res = await _recruitmentDetail.RevokeEmployee(item, recruitmentID);
                 if (res.Success == false)
                 {
                     return res;
@@ -142,11 +144,11 @@ namespace FashionShopBL.RecruitmentDetailBL
 
         }
 
-        public ServiceResponse RemoveFromRecruitment(List<int> ids, int recruitmentID)
+        public async Task<ServiceResponse> RemoveFromRecruitment(List<int> ids, int recruitmentID)
         {
             foreach (var item in ids)
             {
-                var res = _recruitmentDetail.RemoveFromRecruitment(item, recruitmentID);
+                var res = await _recruitmentDetail.RemoveFromRecruitment(item, recruitmentID);
                 if (res.Success == false)
                 {
                     return res;
@@ -161,11 +163,11 @@ namespace FashionShopBL.RecruitmentDetailBL
 
         }
 
-        public ServiceResponse ContinueRecruit(List<int> ids, int recruitmentID)
+        public async Task<ServiceResponse> ContinueRecruit(List<int> ids, int recruitmentID)
         {
             foreach (var item in ids)
             {
-                var res = _recruitmentDetail.ContinueRecruit(item, recruitmentID);
+                var res = await _recruitmentDetail.ContinueRecruit(item, recruitmentID);
                 if (res.Success == false)
                 {
                     return res;
@@ -180,18 +182,21 @@ namespace FashionShopBL.RecruitmentDetailBL
 
         }
 
-        public ServiceResponse ChangeRecruitment(List<int> ids, int recruitmentID, int recruitmentRound, int choose, int period)
+        public async Task<ServiceResponse> ChangeRecruitment(List<int> ids, int recruitmentID, int recruitmentRound, int choose, int period)
         {
             foreach (var id in ids)
             {
-                var res = _recruitmentDetail.ChangeRecruitment(id, recruitmentID, recruitmentRound, choose, period);
+                var res = await _recruitmentDetail.ChangeRecruitment(id, recruitmentID, recruitmentRound, choose, period);
                 if (res.Success)
                 {
-                    var can = _recruitmentDetail.GetRecordByID((int)res.Data);
+                    var can = await _recruitmentDetail.GetRecordByID((int)res.Data);
                     RecruitmentDetail recruitmentDetail = (RecruitmentDetail)can.Data;
                     if (can.Success && !string.IsNullOrEmpty(recruitmentDetail.Email))
                     {
-                        _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailRecruitment, recruitmentDetail);
+                        _ = Task.Run(() =>
+                        {
+                            _emailBL.SendEmail(recruitmentDetail.Email, EmailType.EmailRecruitment, recruitmentDetail);
+                        });
                     }
                 }
             }

@@ -25,6 +25,7 @@ namespace FashionShopCommon
         public int ScheduleType { get; set; }
         public bool IsNotifyCouncil { get; set; }
         public string ScheduleName { get; set; }
+        public string JobPositionName { get; set; }
         public int Gender { get; set; }
         [DetailTable]
         public int RecruitmentID { get; set; }

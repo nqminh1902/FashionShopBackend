@@ -11,6 +11,6 @@ namespace FashionShopDL.CandidateScheduleDetailDL
 {
     public interface ICandidateScheduleDetailDL: IBaseDL<CandidateScheduleDetail>
     {
-        public ServiceResponse GetSheduleDetailByRecruitment(DynamicParameters parameters);
+        public Task<ServiceResponse> GetSheduleDetailByRecruitment(DynamicParameters parameters);
     }
 }

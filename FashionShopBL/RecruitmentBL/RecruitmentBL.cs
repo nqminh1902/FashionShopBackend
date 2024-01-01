@@ -33,9 +33,9 @@ namespace FashionShopBL.RecruitmentBL
 
         }
 
-        public override ServiceResponse InsertRecord(Recruitment record)
+        public override async Task<ServiceResponse> InsertRecord(Recruitment record)
         {
-            var res = _recruitmentDL.InsertRecord(record);
+            var res = await _recruitmentDL.InsertRecord(record);
             if(res.Success)
             {
                 if (record.RecruitmentPeriods != null && record.RecruitmentPeriods.Any())
@@ -44,7 +44,7 @@ namespace FashionShopBL.RecruitmentBL
                     {
                         item.RecruitmentID = (int)res.Data;
                     }
-                    _periodDL.InsertMultipleRecord(record.RecruitmentPeriods);
+                    await _periodDL.InsertMultipleRecord(record.RecruitmentPeriods);
                 }
                 if (record.RecruitmentRounds != null && record.RecruitmentRounds.Any())
                 {
@@ -52,7 +52,7 @@ namespace FashionShopBL.RecruitmentBL
                     {
                         item.RecruitmentID = (int)res.Data;
                     }
-                    _roundDL.InsertMultipleRecord(record.RecruitmentRounds);
+                    await _roundDL.InsertMultipleRecord(record.RecruitmentRounds);
                 }
                 if (record.RecruitmentBroads != null && record.RecruitmentBroads.Any())
                 {
@@ -60,15 +60,15 @@ namespace FashionShopBL.RecruitmentBL
                     {
                         item.RecruitmentID = (int)res.Data;
                     }
-                    _recruitmentBroadDL.InsertMultipleRecord(record.RecruitmentBroads);
+                    await _recruitmentBroadDL.InsertMultipleRecord(record.RecruitmentBroads);
                 }
             }
             return res;
         }
 
-        public override ServiceResponse UpdateRecord(int recordID, Recruitment record)
+        public override async Task<ServiceResponse> UpdateRecord(int recordID, Recruitment record)
         {
-            var res = base.UpdateRecord(recordID, record);
+            var res = await base.UpdateRecord(recordID, record);
             if (res.Success)
             {
                 if (record.RecruitmentRounds != null && record.RecruitmentRounds.Any())
@@ -132,10 +132,10 @@ namespace FashionShopBL.RecruitmentBL
             return res;
         }
 
-        public override ServiceResponse GetPaging(PagingRequest pagingRequest)
+        public override async Task<ServiceResponse> GetPaging(PagingRequest pagingRequest)
         {
             var param = BuildWhereParameter(pagingRequest);
-            var pagingResult = _recruitmentDL.GetPaging(param);
+            var pagingResult = await _recruitmentDL.GetPaging(param);
             if (pagingResult.Data != null)
             {
                 var listRecruitment = (List<Recruitment>)pagingResult.Data;
@@ -145,7 +145,7 @@ namespace FashionShopBL.RecruitmentBL
                     byte[] bytes = Encoding.UTF8.GetBytes(customFilter.Replace("/",""));
                     string base64String = Convert.ToBase64String(bytes);
                     var roundParam = BuildWhereParameter(new PagingRequest() { PageSize = 1000, PageIndex = 1, CustomFilter = base64String, SearchValue = "", SortOrder = new List<string>() { "SordOrder ASC" } });
-                    PagingResult round = _roundDL?.GetPaging(roundParam);
+                    PagingResult round = await _roundDL.GetPaging(roundParam);
                     if (round != null && round.Data != null) {
                         item.RecruitmentRounds = (List<RecruitmentRound>)round.Data;
                     }
@@ -155,7 +155,7 @@ namespace FashionShopBL.RecruitmentBL
                     }
 
                     var periodParam = BuildWhereParameter(new PagingRequest() { PageSize = 1000, PageIndex = 1, CustomFilter = base64String, SearchValue = "", SortOrder = new List<string>() { "ModifiedDate ASC" } });
-                    PagingResult period = _periodDL?.GetPaging(periodParam);
+                    PagingResult period = await _periodDL.GetPaging(periodParam);
                     if (period != null && period.Data != null)
                     {
                         item.RecruitmentPeriods = (List<RecruitmentPeriod>)period.Data;
@@ -174,14 +174,14 @@ namespace FashionShopBL.RecruitmentBL
             };
         }
 
-        public ServiceResponse getRecruitmentBroad(int recruitmentID)
+        public async Task<ServiceResponse> getRecruitmentBroad(int recruitmentID)
         {
-            return _recruitmentDL.getRecruitmentBroad(recruitmentID);
+            return await _recruitmentDL.getRecruitmentBroad(recruitmentID);
         }
 
-        public ServiceResponse updateRecruitmentStatus(int recruitmentID, int status)
+        public async Task<ServiceResponse> updateRecruitmentStatus(int recruitmentID, int status)
         {
-            return _recruitmentDL.updateRecruitmentStatus(recruitmentID, status);
+            return await _recruitmentDL.updateRecruitmentStatus(recruitmentID, status);
         }
     }
 }

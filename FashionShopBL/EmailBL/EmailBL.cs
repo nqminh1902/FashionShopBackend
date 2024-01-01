@@ -18,14 +18,14 @@ namespace FashionShopBL.EmailBL
         {
             _emailDL = emailDL;
         }
-        public virtual ServiceResponse SendEmail(string receiverEmail, EmailType emailType ,object model)
+        public virtual async Task<ServiceResponse> SendEmail(string receiverEmail, EmailType emailType ,object model)
         {
 
-            var emailTempalte = _emailDL.GetEmailByType(emailType);
+            var emailTempalte = await _emailDL.GetEmailByType(emailType);
             if (emailTempalte != null) {
                 var content = ReplaceEmailContent(emailTempalte.EmailContent, model);
                 var subject = ReplaceEmailContent(emailTempalte.EmailSubject, model);
-                _emailDL.SendEmail(content, subject, receiverEmail);
+                await _emailDL.SendEmail(content, subject, receiverEmail);
                 return new ServiceResponse()
                 {
                     Success = true,
@@ -41,7 +41,7 @@ namespace FashionShopBL.EmailBL
         {
             var newContent = content;
             // Lấy rả các Prop của đối tượng
-            var properties = model.GetType().GetProperties();
+            var properties = model?.GetType().GetProperties();
 
             foreach (var prop in properties)
             {

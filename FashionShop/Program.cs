@@ -3,53 +3,53 @@ using FashionShopBL.BaseBL;
 using FashionShopBL.CandidateBL;
 using FashionShopBL.CandidateScheduleBL;
 using FashionShopBL.CandidateScheduleDetailBL;
+using FashionShopBL.EducationMajorBL;
+using FashionShopBL.EliminateReasonBL;
 using FashionShopBL.EmailBL;
+using FashionShopBL.ExportBL;
 using FashionShopBL.ImportBL;
-using FashionShopBL.ProductBL;
-using FashionShopBL.ProductColorBL;
-using FashionShopBL.ProductImageBL;
-using FashionShopBL.ProductSizeBL;
-using FashionShopBL.ProductVariantBL;
+using FashionShopBL.JobPositionBL;
+using FashionShopBL.PermissionBL;
 using FashionShopBL.RecruitmentBL;
 using FashionShopBL.RecruitmentDetailBL;
 using FashionShopBL.RecruitmentPeriodBL;
 using FashionShopBL.RecruitmentRoundBL;
 using FashionShopBL.Report;
+using FashionShopBL.RoleBL;
+using FashionShopBL.UniversityBL;
+using FashionShopBL.UserBL;
+using FashionShopBL.WorkLocationBL;
 using FashionShopDL;
 using FashionShopDL.BaseDL;
 using FashionShopDL.CandidateDL;
 using FashionShopDL.CandidateScheduleDetailDL;
 using FashionShopDL.CandidateScheduleDL;
+using FashionShopDL.EducationMajorDL;
+using FashionShopDL.EliminateReasonDL;
 using FashionShopDL.EmailDL;
-using FashionShopDL.ProductColorDL;
-using FashionShopDL.ProductDL;
-using FashionShopDL.ProductImageDL;
-using FashionShopDL.ProductSizeDL;
-using FashionShopDL.ProductVariantDL;
+using FashionShopDL.JobPositionDL;
+using FashionShopDL.PermissionDL;
 using FashionShopDL.RecruitmentBroadDL;
 using FashionShopDL.RecruitmentDetailDL;
 using FashionShopDL.RecruitmentDL;
 using FashionShopDL.RecruitmentPeriodDL;
 using FashionShopDL.RecruitmentRoundDL;
 using FashionShopDL.ReportDL;
+using FashionShopDL.RoleDL;
+using FashionShopDL.UniversityDL;
+using FashionShopDL.UserDL;
 using FashionShopDL.WorkExperientDL;
+using FashionShopDL.WorkLocationDL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped(typeof(IBaseBL<>), typeof(BaseBL<>));
 builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
-builder.Services.AddScoped<IProductDL, ProductDL>();
-builder.Services.AddScoped<IProductBL, ProductBL>();
-builder.Services.AddScoped<IProductColorDL, ProductColorDL>();
-builder.Services.AddScoped<IProductColorBL, ProductColorBL>();
-builder.Services.AddScoped<IProductSizeDL, ProductSizeDL>();
-builder.Services.AddScoped<IProductSizeBL, ProductSizeBL>();
-builder.Services.AddScoped<IProductImageDL, ProductImageDL>();
-builder.Services.AddScoped<IProductImageBL, ProductImageBL>();
-builder.Services.AddScoped<IProductVariantDL, ProductVariantDL>();
-builder.Services.AddScoped<IProductVariantBL, ProductVariantBL>();
 builder.Services.AddScoped<IRecruitmentDL, RecruitmentDL>();
 builder.Services.AddScoped<IRecruitmentBL, RecruitmentBL>();
 builder.Services.AddScoped<IRecruitmentPeriodDL, RecruitmentPeriodDL>();
@@ -71,8 +71,23 @@ builder.Services.AddScoped<IReportDL, ReportDL>();
 builder.Services.AddScoped<IEmailBL, EmailBL>();
 builder.Services.AddScoped<IEmailDL, EmailDL>();
 builder.Services.AddScoped<IImportBL, ImportBL>();
-
-
+builder.Services.AddScoped<IUniversityBL, UniversityBL>();
+builder.Services.AddScoped<IUniversityDL, UniversityDL>();
+builder.Services.AddScoped<IEducationMajorBL, EducationMajorBL>();
+builder.Services.AddScoped<IEducationMajorDL, EducationMajorDL>();
+builder.Services.AddScoped<IEliminateReasonBL, EliminateReasonBL>();
+builder.Services.AddScoped<IEliminateReasonDL, EliminateReasonDL>();
+builder.Services.AddScoped<IWorkLocationDL, WorkLocationDL>();
+builder.Services.AddScoped<IWorkLocationBL, WorkLocationBL>();
+builder.Services.AddScoped<IJobPositionBL, JobPositionBL>();
+builder.Services.AddScoped<IJobPositionDL, JobPositionDL>();
+builder.Services.AddScoped<IExportBL, ExportBL>();
+builder.Services.AddScoped<IRoleDL, RoleDL>();
+builder.Services.AddScoped<IRoleBL, RoleBL>();
+builder.Services.AddScoped<IPermissionDL, PermissionDL>();
+builder.Services.AddScoped<IPermissionBL, PermissionBL>();
+builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IUserDL, UserDL>();
 
 
 // Lấy dữ liệu từ connectionString từ file appsetting.Development.json
@@ -98,6 +113,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -109,9 +139,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
+app.UseHttpsRedirection();
+
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
-app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -12,9 +12,9 @@ namespace FashionShopDL.EmailDL
 {
     public interface IEmailDL : IBaseDL<Email>
     {
-        public void SendEmail(string emailContent, string emailSubject, string emailAddress);
+        public Task SendEmail(string emailContent, string emailSubject, string emailAddress);
 
-        public Email GetEmailByType(EmailType type);
+        public Task<Email> GetEmailByType(EmailType type);
 
 
     }

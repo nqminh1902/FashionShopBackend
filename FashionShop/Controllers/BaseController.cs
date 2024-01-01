@@ -65,11 +65,11 @@ namespace FashionShopAPI.Controllers
         /// <returns>Trả về thông tin 1 bản ghi theo ID</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/11/2022)
         [HttpGet("{recordID}")]
-        public IActionResult GetRecordByID([FromRoute] int recordID)
+        public async Task<IActionResult> GetRecordByID([FromRoute] int recordID)
         {
             try
             {
-                var response = _baseBL.GetRecordByID(recordID);
+                var response = await _baseBL.GetRecordByID(recordID);
 
                 // Xử lý trả về
 
@@ -103,11 +103,11 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID của bản ghi vừa xóa</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/3/2022)
         [HttpDelete("{recordID}")]
-        public IActionResult DeleteRecord([FromRoute] int recordID)
+        public async Task<IActionResult> DeleteRecord([FromRoute] int recordID)
         {
             try
             {
-                var serviceResponse = _baseBL.DeleteRecord(recordID);
+                var serviceResponse = await _baseBL.DeleteRecord(recordID);
 
                 //Xử lý kết quả trả về
 
@@ -140,11 +140,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>ca
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("deleteBulk")]
-        public IActionResult DeleteMultipleEmployee([FromBody] List<int> ids)
+        public async Task<IActionResult> DeleteMultipleEmployee([FromBody] List<int> ids)
         {
             try
             {
-                var result = _baseBL.DeleteMultiple(ids);
+                var result = await _baseBL.DeleteMultiple(ids);
 
                 if (result.Success)
                 {
@@ -180,11 +180,11 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID bản ghi thêm thành công</returns>
         /// CreateBy: Nguyễn Quang Minh(25/11/2022)
         [HttpPost]
-        public IActionResult InsertRecord([FromBody] T record)
+        public async Task<IActionResult> InsertRecord([FromBody] T record)
         {
             try
             {
-                var isValid = _baseBL.InsertRecord(record);
+                var isValid = await _baseBL.InsertRecord(record);
                 //Xử lý kết quả trả về
                 if (!isValid.Success)
                 {
@@ -221,11 +221,11 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID bản ghi thêm thành công</returns>
         /// CreateBy: Nguyễn Quang Minh(25/11/2022)
         [HttpPost("insertBulk")]
-        public IActionResult InsertMultipleRecord([FromBody] List<T> records)
+        public async Task<IActionResult> InsertMultipleRecord([FromBody] List<T> records)
         {
             try
             {
-                var isValid = _baseBL.InsertMultipleRecord(records);
+                var isValid = await _baseBL.InsertMultipleRecord(records);
                 //Xử lý kết quả trả về
                 if (!isValid.Success)
                 {
@@ -263,11 +263,11 @@ namespace FashionShopAPI.Controllers
         /// <returns>ID của bản ghi vừa cập nhập</returns>
         /// CreateBy: Nguyễn Quang Minh (25/11/2022)
         [HttpPut("{recordID}")]
-        public IActionResult UpdateRecord([FromRoute] int recordID, [FromBody] T record)
+        public async Task<IActionResult> UpdateRecord([FromRoute] int recordID, [FromBody] T record)
         {
             try
             {
-                var isValid = _baseBL.UpdateRecord(recordID, record);
+                var isValid = await _baseBL.UpdateRecord(recordID, record);
 
 
                 //Xử lý kết quả trả về
@@ -306,12 +306,12 @@ namespace FashionShopAPI.Controllers
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
         [HttpPost("paging")]
-        public IActionResult GetPaging([FromBody] PagingRequest pagingRequest)
+        public async Task<IActionResult> GetPaging([FromBody] PagingRequest pagingRequest)
         {
             try
             {
 
-                var result = _baseBL.GetPaging(pagingRequest);
+                var result = await _baseBL.GetPaging(pagingRequest);
 
                 return StatusCode(StatusCodes.Status200OK, result);
            

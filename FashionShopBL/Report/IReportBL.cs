@@ -9,9 +9,9 @@ namespace FashionShopBL.Report
 {
     public interface IReportBL
     {
-        public ServiceResponse GetCandidateByTime(Dictionary<string, object> request, int recruitmentID);
+        public Task<ServiceResponse> GetCandidateByTime(Dictionary<string, object> request, int recruitmentID);
 
-        public ServiceResponse GetDataReportByRecruitment(int recruitmentID, int periodID);
+        public Task<ServiceResponse> GetDataReportByRecruitment(int recruitmentID, int periodID);
 
     }
 }

@@ -24,7 +24,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public ServiceResponse GetRecordByID(int recordID);
+        public Task<ServiceResponse> GetRecordByID(int recordID);
 
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse DeleteRecord(int recordID);
+        public Task<ServiceResponse> DeleteRecord(int recordID);
 
         /// <summary>
         /// Xóa hàng loạt bản ghi theo ID
@@ -41,7 +41,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="">Danh sách ID</param>
         /// <returns>Danh sách ID xóa thành công</returns>
         /// CreateBy: Nguyễn Quang Minh (15/11/2022)
-        public ServiceResponse DeleteMultiple(List<int> ids);
+        public Task<ServiceResponse> DeleteMultiple(List<int> ids);
 
         /// <summary>
         /// Thêm mới một bản ghi
@@ -49,7 +49,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public ServiceResponse InsertRecord(T record);
+        public Task<ServiceResponse> InsertRecord(T record);
 
         /// <summary>
         /// Thêm mới nhiều bản ghi
@@ -57,7 +57,7 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public ServiceResponse InsertMultipleRecord(List<T> records);
+        public Task<ServiceResponse> InsertMultipleRecord(List<T> records);
 
         /// <summary>
         /// Sửa thông tin 1 bản ghi theo ID
@@ -66,14 +66,14 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse UpdateRecord(int recordID, T record);
+        public Task<ServiceResponse> UpdateRecord(int recordID, T record);
 
         /// <summary>
         /// Lấy ra bản ghi theo tìm kiếm và phân trang
         /// </summary>
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
-        public ServiceResponse GetPaging(PagingRequest parameter);
+        public Task<ServiceResponse> GetPaging(PagingRequest parameter);
 
         /// <summary>
         /// Hàm xây dựng câu lệnh tìm kiếm

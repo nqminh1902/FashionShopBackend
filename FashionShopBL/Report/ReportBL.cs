@@ -17,7 +17,7 @@ namespace FashionShopBL.Report
             _reportDL = reportDL;
         }
 
-        public ServiceResponse GetCandidateByTime(Dictionary<string, object> request, int recruitmentID)
+        public async Task<ServiceResponse> GetCandidateByTime(Dictionary<string, object> request, int recruitmentID)
         {
             var fromDate = request.GetValue("FromDate").ToString();
             var ToDate = request.GetValue("ToDate").ToString();
@@ -25,7 +25,7 @@ namespace FashionShopBL.Report
 
             if (fromDate != null && ToDate != null && periodID != null)
             {
-                return _reportDL.GetCandidateByTime(recruitmentID, DateTime.Parse(fromDate), DateTime.Parse(ToDate), Int32.Parse(periodID));
+                return await _reportDL.GetCandidateByTime(recruitmentID, DateTime.Parse(fromDate), DateTime.Parse(ToDate), Int32.Parse(periodID));
             }
 
             return new ServiceResponse()
@@ -35,11 +35,11 @@ namespace FashionShopBL.Report
             };
         }
 
-        public ServiceResponse GetDataReportByRecruitment(int recruitmentID, int periodID)
+        public async Task<ServiceResponse> GetDataReportByRecruitment(int recruitmentID, int periodID)
         {
-            var recruitmentEfficiency = _reportDL.RecruitmentEfficiency(recruitmentID, periodID);
+            var recruitmentEfficiency = await _reportDL.RecruitmentEfficiency(recruitmentID, periodID);
 
-            var recruitmentChannel = _reportDL.RecruitmentChannel(recruitmentID, periodID);
+            var recruitmentChannel = await _reportDL.RecruitmentChannel(recruitmentID, periodID);
 
 
 

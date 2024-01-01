@@ -23,11 +23,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("get-by-recruitment")]
-        public IActionResult getTotalCandidateByRound(PagingRequest pagingRequest)
+        public async Task<IActionResult> getTotalCandidateByRound(PagingRequest pagingRequest)
         {
             try
             {
-                var result = _candidateScheduleDetailBL.GetSheduleDetailByRecruitment(pagingRequest);
+                var result = await _candidateScheduleDetailBL.GetSheduleDetailByRecruitment(pagingRequest);
 
                 if (result.Success)
                 {

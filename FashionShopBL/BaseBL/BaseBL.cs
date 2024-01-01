@@ -50,9 +50,9 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public ServiceResponse GetRecordByID(int recordID)
+        public virtual async Task<ServiceResponse> GetRecordByID(int recordID)
         {
-            return _baseDL.GetRecordByID(recordID);
+            return await _baseDL.GetRecordByID(recordID);
         }
 
 
@@ -62,9 +62,9 @@ namespace FashionShopBL.BaseBL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse DeleteRecord(int recordID)
+        public async Task<ServiceResponse> DeleteRecord(int recordID)
         {
-            var response = _baseDL.DeleteRecord(recordID);
+            var response = await _baseDL.DeleteRecord(recordID);
             return response;
         }
 
@@ -74,9 +74,9 @@ namespace FashionShopBL.BaseBL
         /// <param name="">Danh sách ID</param>
         /// <returns>Danh sách ID xóa thành công</returns>
         /// CreateBy: Nguyễn Quang Minh (15/11/2022)
-        public virtual ServiceResponse DeleteMultiple(List<int> ids)
+        public virtual async Task<ServiceResponse> DeleteMultiple(List<int> ids)
         {
-            return _baseDL.DeleteMultiple(ids);
+            return await _baseDL.DeleteMultiple(ids);
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public virtual ServiceResponse InsertRecord(T record)
+        public virtual async Task<ServiceResponse> InsertRecord(T record)
         {
             // Thực hiện gọi làm thêm bản ghi và trả về kết quả
-            var response = _baseDL.InsertRecord(record);
+            var response = await _baseDL.InsertRecord(record);
             if(response.Success == true ) 
             {
                 return new ServiceResponse()
@@ -110,13 +110,13 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public virtual ServiceResponse InsertMultipleRecord(List<T> records)
+        public virtual async Task<ServiceResponse> InsertMultipleRecord(List<T> records)
         {
             // Thực hiện gọi làm thêm bản ghi và trả về kết quả
 
             foreach (var record in records)
             {
-                var response = InsertRecord(record);
+                var response = await InsertRecord(record);
                 if (!response.Success)
                 {
                     return new ServiceResponse()
@@ -141,10 +141,10 @@ namespace FashionShopBL.BaseBL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public virtual ServiceResponse UpdateRecord(int recordID, T record)
+        public virtual async Task<ServiceResponse> UpdateRecord(int recordID, T record)
         {
             // Thực hiện gọi hàm sửa bản ghi và trả về kết quả
-           var response = _baseDL.UpdateRecord(recordID, record);
+           var response = await _baseDL.UpdateRecord(recordID, record);
             if (response.Success == true )
             {
                 return new ServiceResponse()
@@ -166,12 +166,10 @@ namespace FashionShopBL.BaseBL
         /// </summary>
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
-        public virtual ServiceResponse GetPaging(PagingRequest pagingRequest)
+        public virtual async Task<ServiceResponse> GetPaging(PagingRequest pagingRequest)
         {
             var param = BuildWhereParameter(pagingRequest);
-            var test = pagingRequest.CustomParam?.GetValue("Test");
-            var hoho = $"Hôm nay tôi cười {test}";
-            var pagingResult = _baseDL.GetPaging(param);
+            var pagingResult = await _baseDL.GetPaging(param);
             if (pagingResult.TotalCount > 0)
             {
                 return new ServiceResponse()
@@ -265,12 +263,14 @@ namespace FashionShopBL.BaseBL
             // Build câu lệnh v_where
             if (andCondition.Count > 0)
             {
-                var test = $" WHERE {string.Join(" AND ", andCondition)} {sordCondition};";
-                parameters.Add("v_where", $" WHERE {string.Join(" AND ", andCondition)} {sordCondition};");
+                var test = $" WHERE {string.Join(" AND ", andCondition)};";
+                parameters.Add("v_where", $" WHERE {string.Join(" AND ", andCondition)}");
+                parameters.Add("v_paging", $" {sordCondition};");
             }
             else
             {
-                parameters.Add("v_where", $" {sordCondition};");
+                parameters.Add("v_where", "");
+                parameters.Add("v_paging", $" {sordCondition};");
             }
 
             return parameters;

@@ -13,7 +13,7 @@ namespace FashionShopDL.RecruitmentDL
 {
     public class RecruitmentDL: BaseDL<Recruitment>, IRecruitmentDL
     {
-        public override ServiceResponse GetRecordByID(int recordID)
+        public override async Task<ServiceResponse> GetRecordByID(int recordID)
         {
             // Chuẩn bị câu lệnh SQL
             string storeProcedureName = "Proc_Recruitment_GetByID";
@@ -26,7 +26,7 @@ namespace FashionShopDL.RecruitmentDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var multipleResult = mySqlConnection.QueryMultiple(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mySqlConnection.QueryMultipleAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -54,7 +54,7 @@ namespace FashionShopDL.RecruitmentDL
             }
         }
 
-        public ServiceResponse getRecruitmentBroad(int recruitmentID)
+        public async Task<ServiceResponse> getRecruitmentBroad(int recruitmentID)
         {
             // Chuẩn bị câu lệnh SQL
             string storeProcedureName = "Proc_Recruitment_GetRecruitmentBroad";
@@ -67,7 +67,7 @@ namespace FashionShopDL.RecruitmentDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var multipleResult = mySqlConnection.QueryMultiple(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mySqlConnection.QueryMultipleAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -91,7 +91,7 @@ namespace FashionShopDL.RecruitmentDL
             }
         }
 
-        public ServiceResponse updateRecruitmentStatus(int recruitmentID, int status)
+        public async Task<ServiceResponse> updateRecruitmentStatus(int recruitmentID, int status)
         {
             string sql = $"UPDATE recruitment r SET Status = {status} WHERE RecruitmentID = {recruitmentID};";
 
@@ -99,7 +99,7 @@ namespace FashionShopDL.RecruitmentDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var result = mySqlConnection.Execute(sql);
+                var result = await mySqlConnection.ExecuteAsync(sql);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE

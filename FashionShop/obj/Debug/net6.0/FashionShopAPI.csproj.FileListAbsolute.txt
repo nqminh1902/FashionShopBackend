@@ -59,3 +59,12 @@ D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\EPPlus.System.Dr
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Fashiondev\backend2\FashionShop\FashionShop\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

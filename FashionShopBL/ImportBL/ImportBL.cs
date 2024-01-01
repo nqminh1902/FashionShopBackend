@@ -68,7 +68,7 @@ namespace FashionShopBL.ImportBL
                         if (string.IsNullOrEmpty(excelWorksheet.Cells[row, 6].Value?.ToString()))
                         {
                             isError = true;
-                            Reason.Add("Đại chỉ nhà ứng viên không được để trống");
+                            Reason.Add("Địa chỉ nhà ứng viên không được để trống");
                         }
                         if (isError)
                         {
@@ -87,8 +87,9 @@ namespace FashionShopBL.ImportBL
                                 Mobile = excelWorksheet.Cells[row, 3].Value.ToString()?.Trim(),
                                 Birthday = ConvertStringToDateTime(excelWorksheet.Cells[row, 4].Value.ToString()),
                                 Email = excelWorksheet.Cells[row, 5].Value.ToString()?.Trim(),
-                                Address = excelWorksheet.Cells[row, 6].Value.ToString()?.Trim()
-                            }); ;
+                                Address = excelWorksheet.Cells[row, 6].Value.ToString()?.Trim(),
+                                ApplyDate = DateTime.Now
+                            });
 
                         }
                     }
@@ -106,6 +107,112 @@ namespace FashionShopBL.ImportBL
                 
         }
 
+        public ServiceResponse ValidateEducationMajorImportData(IFormFile formFile)
+        {
+            var listEducationMajor = new List<EducationMajor>();
+            var listRowsError = new List<ImportError>();
+            using (var stream = new MemoryStream())
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                formFile.CopyTo(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet excelWorksheet = package.Workbook.Worksheets[0];
+
+                    var rowsCount = excelWorksheet.Dimension.Rows;
+                    for (int row = 2; row <= rowsCount; row++)
+                    {
+                        bool isError = false;
+                        List<string> Reason = new List<string>();
+                        if (string.IsNullOrEmpty(excelWorksheet.Cells[row, 2].Value?.ToString()))
+                        {
+                            isError = true;
+                            Reason.Add("Tên chuyên ngành không được để trống");
+                        }
+                        if (isError)
+                        {
+                            listRowsError.Add(new ImportError
+                            {
+                                Row = row,
+                                ErrorReason = string.Join(",", Reason),
+                            });
+                        }
+                        else
+                        {
+                            listEducationMajor.Add(new EducationMajor
+                            {
+                                EducationMajorName = excelWorksheet.Cells[row, 2].Value.ToString()?.Trim(),
+                            }); ;
+
+                        }
+                    }
+                }
+            }
+            return new ServiceResponse()
+            {
+                Success = true,
+                Data = new
+                {
+                    listEducationMajor,
+                    listRowsError
+                },
+            };
+
+        }
+
+        public ServiceResponse ValidateUniversityImportData(IFormFile formFile)
+        {
+            var listUniversity = new List<University>();
+            var listRowsError = new List<ImportError>();
+            using (var stream = new MemoryStream())
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                formFile.CopyTo(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet excelWorksheet = package.Workbook.Worksheets[0];
+
+                    var rowsCount = excelWorksheet.Dimension.Rows;
+                    for (int row = 2; row <= rowsCount; row++)
+                    {
+                        bool isError = false;
+                        List<string> Reason = new List<string>();
+                        if (string.IsNullOrEmpty(excelWorksheet.Cells[row, 3].Value?.ToString()))
+                        {
+                            isError = true;
+                            Reason.Add("Tên trường đại học không được để trống");
+                        }
+                        if (isError)
+                        {
+                            listRowsError.Add(new ImportError
+                            {
+                                Row = row,
+                                ErrorReason = string.Join(",", Reason),
+                            });
+                        }
+                        else
+                        {
+                            listUniversity.Add(new University
+                            {
+                                UniversityCode = !string.IsNullOrEmpty(excelWorksheet.Cells[row, 2].Value?.ToString()?.Trim()) ? excelWorksheet.Cells[row, 2].Value.ToString()?.Trim() : "",
+                                UniversityName = excelWorksheet.Cells[row, 3].Value.ToString()?.Trim()
+                            });
+
+                        }
+                    }
+                }
+            }
+            return new ServiceResponse()
+            {
+                Success = true,
+                Data = new
+                {
+                    listUniversity,
+                    listRowsError
+                },
+            };
+
+        }
 
         private DateTime ConvertStringToDateTime(string dateString)
         {

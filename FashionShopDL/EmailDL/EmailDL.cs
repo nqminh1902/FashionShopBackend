@@ -18,18 +18,18 @@ namespace FashionShopDL.EmailDL
 {
     public class EmailDL : BaseDL<Email>, IEmailDL
     {
-        public Email GetEmailByType(EmailType type)
+        public async Task<Email> GetEmailByType(EmailType type)
         {
             string sql = $"SELECT * FROM `email-template` e WHERE e.EmailType = {(int)type};";
 
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 //Thực hiện gọi vào DB
-                return mySqlConnection.QueryFirstOrDefault<Email>(sql);
+                return await mySqlConnection.QueryFirstOrDefaultAsync<Email>(sql);
             }
         }
 
-        public void SendEmail(string emailContent, string emailSubject, string receiverEmail)
+        public async Task SendEmail(string emailContent, string emailSubject, string receiverEmail)
         {
             string fromMail = EmailInfo.email;
             string passWord = EmailInfo.password;
@@ -48,7 +48,7 @@ namespace FashionShopDL.EmailDL
                 EnableSsl = true
             };
 
-            smtpClient.Send(mailMessage);
+            await smtpClient.SendMailAsync(mailMessage);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID"> Id của bản ghi </param>
         /// <returns>Trả về thông tin của bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (11/11/2022)
-        public virtual ServiceResponse GetRecordByID(int recordID)
+        public virtual async Task<ServiceResponse> GetRecordByID(int recordID)
         {
 
             // Chuẩn bị câu lệnh SQL
@@ -71,7 +71,7 @@ namespace FashionShopDL.BaseDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var record = mySqlConnection.QueryFirstOrDefault<T>(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var record = await mySqlConnection.QueryFirstOrDefaultAsync<T>(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE
@@ -97,7 +97,7 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <param name="recordCode"> Mã của bản ghi</param>
         /// <returns>Trả về true or false</returns>
-        public bool CheckCodeExist(string recordCode, T record)
+        public async Task<bool> CheckCodeExist(string recordCode, T record)
         {
             // Chuẩn bị câu lệnh SQL
             string storeProcedureName = String.Format(Procedure.GET_CODE_BY_CODE, typeof(T).Name);
@@ -111,7 +111,7 @@ namespace FashionShopDL.BaseDL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 //Thực hiện gọi vào DB
-                var code = mySqlConnection.QueryFirstOrDefault(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var code = await mySqlConnection.QueryFirstOrDefaultAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (code != null)
                 {
@@ -127,7 +127,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi đã bị xóa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public ServiceResponse DeleteRecord(int recordID)
+        public async Task<ServiceResponse> DeleteRecord(int recordID)
         {
 
             // Chuẩn bị câu lệnh SQL
@@ -139,7 +139,7 @@ namespace FashionShopDL.BaseDL
             // Khời tạo kết nối tới DB MySQL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var numberOfRowsAffected = mySqlConnection.Execute(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var numberOfRowsAffected = await mySqlConnection.ExecuteAsync(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                 //Thành công: Trả về Id nhân viên thêm thành công
                 if (numberOfRowsAffected > 0)
                 {
@@ -165,7 +165,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="">Danh sách ID</param>
         /// <returns>Danh sách ID xóa thành công</returns>
         /// CreateBy: Nguyễn Quang Minh (15/11/2022)
-        public virtual ServiceResponse DeleteMultiple(List<int> ids)
+        public virtual async Task<ServiceResponse> DeleteMultiple(List<int> ids)
         {
 
             MySqlTransaction transaction = null;
@@ -185,7 +185,7 @@ namespace FashionShopDL.BaseDL
                 {
                     transaction = mySqlConnection.BeginTransaction();
                     //Thực hiện gọi vào DB
-                    numberOfRowsAffected = mySqlConnection.Execute(sql, transaction: transaction);
+                    numberOfRowsAffected = await mySqlConnection.ExecuteAsync(sql, transaction: transaction);
                     if (numberOfRowsAffected == ids.Count)
                     {
                         transaction.Commit();
@@ -231,7 +231,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="record">Đối tượng cẩn thêm mới</param>
         /// <returns>ID của đối tượng vừa thêm mới</returns>
         /// CreatedBy: Nguyễn Quang Minh (25/11/2022)
-        public virtual ServiceResponse InsertRecord(T record)
+        public virtual async Task<ServiceResponse> InsertRecord(T record)
         {
             // Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.INSERT_RECORD, typeof(T).Name);
@@ -275,7 +275,7 @@ namespace FashionShopDL.BaseDL
                 // Bắt đầu transaction 
                 var transaction = mySqlConnection.BeginTransaction();
                 // Thực hiện gọi vào DB
-                var result = mySqlConnection.QueryFirstOrDefault<int>(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+                var result = await mySqlConnection.QueryFirstOrDefaultAsync<int>(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 // return kết quả
                 if (result > 0)
                 {
@@ -307,11 +307,11 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <param name="records"></param>
         /// <returns></returns>
-        public virtual ServiceResponse InsertMultipleRecord(List<T> records)
+        public virtual async Task<ServiceResponse> InsertMultipleRecord(List<T> records)
         {
             foreach (var item in records)
             {
-                var res = InsertRecord(item);
+                var res = await InsertRecord(item);
                 if(res == null)
                 {
                     return new ServiceResponse()
@@ -349,7 +349,7 @@ namespace FashionShopDL.BaseDL
         /// <param name="record">Đối tượng bản ghi muốn sửa</param>
         /// <returns>ID của bản ghi đã sửa</returns>
         /// CreateBy: Nguyễn Quang Minh (12/11/2022)
-        public virtual ServiceResponse UpdateRecord(int recordID, T record)
+        public virtual async Task<ServiceResponse> UpdateRecord(int recordID, T record)
         {
             // Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.UPDATE_RECORD, typeof(T).Name);
@@ -390,7 +390,7 @@ namespace FashionShopDL.BaseDL
                 // Bắt đầu transaction 
                 var transaction = mySqlConnection.BeginTransaction();
                 // Thực hiện gọi vào DB
-                var result = mySqlConnection.Execute(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+                var result = await mySqlConnection.ExecuteAsync(storeProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
                 if (result > 0)
                 {
                     transaction.Commit();
@@ -419,7 +419,7 @@ namespace FashionShopDL.BaseDL
         /// </summary>
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
-        public virtual PagingResult GetPaging(DynamicParameters parameter)
+        public virtual async Task<PagingResult> GetPaging(DynamicParameters parameter)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(T).Name);
@@ -427,7 +427,7 @@ namespace FashionShopDL.BaseDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var multipleResult = mysqlConnection.QueryMultiple(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mysqlConnection.QueryMultipleAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (multipleResult != null)
                 {

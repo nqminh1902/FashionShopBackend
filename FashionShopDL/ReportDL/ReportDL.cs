@@ -12,7 +12,7 @@ namespace FashionShopDL.ReportDL
 {
     public class ReportDL : IReportDL
     {
-        public ServiceResponse GetCandidateByTime(int recruitmentID, DateTime startDate, DateTime endDate, int? periodID)
+        public async Task<ServiceResponse> GetCandidateByTime(int recruitmentID, DateTime startDate, DateTime endDate, int? periodID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_Report_CandidateRecruitment";
@@ -25,7 +25,7 @@ namespace FashionShopDL.ReportDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var multipleResult = mysqlConnection.QueryMultiple(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var multipleResult = await mysqlConnection.QueryMultipleAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (multipleResult != null)
                 {
@@ -49,7 +49,7 @@ namespace FashionShopDL.ReportDL
             };
         }
 
-        public IEnumerable RecruitmentChannel(int recruitmentID, int periodID)
+        public async Task<IEnumerable> RecruitmentChannel(int recruitmentID, int periodID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_Report_RecruitmentChannel";
@@ -60,12 +60,12 @@ namespace FashionShopDL.ReportDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var result = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var result = await mysqlConnection.QueryAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
                 return result;
             }
         }
 
-        public IEnumerable RecruitmentEfficiency(int recruitmentID, int periodID)
+        public async Task<IEnumerable> RecruitmentEfficiency(int recruitmentID, int periodID)
         {
             //Chuẩn bị câu lệnh sql
             string storeProcedureName = "Proc_Report_RecruitmentEfficiency";
@@ -76,7 +76,7 @@ namespace FashionShopDL.ReportDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var result = mysqlConnection.Query(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
+                var result = await mysqlConnection.QueryAsync(storeProcedureName, parameter, commandType: System.Data.CommandType.StoredProcedure);
                 return result;
             }
         }

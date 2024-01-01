@@ -22,11 +22,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpGet("getTotalByRound")]
-        public IActionResult getTotalCandidateByRound(int recruitmentID, int status, int period)
+        public async Task<IActionResult> getTotalCandidateByRound(int recruitmentID, int status, int period)
         {
             try
             {
-                var result = _recruitmentDetail.getTotalCandidateByRound(recruitmentID, status, period);
+                var result = await _recruitmentDetail.getTotalCandidateByRound(recruitmentID, status, period);
 
                 if (result.Success)
                 {
@@ -59,11 +59,11 @@ namespace FashionShopAPI.Controllers
         /// Chuyển vòng tuyển dụng
         /// </summary>
         [HttpPost("changeRound")]
-        public IActionResult ChangeRound([FromBody] ChangeRoundDTO keyValuePairs)
+        public async Task<IActionResult> ChangeRound([FromBody] ChangeRoundDTO keyValuePairs)
         {
             try
             {
-                var result = _recruitmentDetail.ChangeRound(keyValuePairs);
+                var result = await _recruitmentDetail.ChangeRound(keyValuePairs);
 
                 if (result.Success)
                 {
@@ -98,11 +98,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpGet("get-eliminate")]
-        public IActionResult GetEliminate()
+        public async Task<IActionResult> GetEliminate()
         {
             try
             {
-                var result = _recruitmentDetail.GetEliminate();
+                var result = await _recruitmentDetail.GetEliminate();
 
                 if (result.Success)
                 {
@@ -137,11 +137,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("eliminate/{recordID}/{recruitmentID}/{isSendMail}")]
-        public IActionResult EliminateCandiadte(int recordID, [FromBody] List<int> ids, int recruitmentID, bool isSendMail)
+        public async Task<IActionResult> EliminateCandiadte(int recordID, [FromBody] List<int> ids, int recruitmentID, bool isSendMail)
         {
             try
             {
-                var result = _recruitmentDetail.EliminateCandiadte(recordID, ids, recruitmentID, isSendMail);
+                var result = await _recruitmentDetail.EliminateCandiadte(recordID, ids, recruitmentID, isSendMail);
 
                 if (result.Success)
                 {
@@ -176,11 +176,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("employee/{recordID}/{recruitmentID}")]
-        public IActionResult TransferToEmployee(int recordID, [FromBody] List<int> ids, int recruitmentID)
+        public async Task<IActionResult> TransferToEmployee(int recordID, [FromBody] List<int> ids, int recruitmentID)
         {
             try
             {
-                var result = _recruitmentDetail.TransferToEmployee(recordID, ids, recruitmentID);
+                var result = await _recruitmentDetail.TransferToEmployee(recordID, ids, recruitmentID);
 
                 if (result.Success)
                 {
@@ -215,11 +215,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpGet("get-by-canidate-id/{id}")]
-        public IActionResult getByCandidateID(int id)
+        public async Task<IActionResult> getByCandidateID(int id)
         {
             try
             {
-                var result = _recruitmentDetail.getByCandidateID(id);
+                var result = await _recruitmentDetail.getByCandidateID(id);
 
                 if (result.Success)
                 {
@@ -254,11 +254,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("revoke-employee/{recruitmentID}")]
-        public IActionResult RevokeEmployee([FromBody]List<int> ids, int recruitmentID)
+        public async Task<IActionResult> RevokeEmployee([FromBody]List<int> ids, int recruitmentID)
         {
             try
             {
-                var result = _recruitmentDetail.RevokeEmployee(ids, recruitmentID);
+                var result = await _recruitmentDetail.RevokeEmployee(ids, recruitmentID);
 
                 if (result.Success)
                 {
@@ -293,11 +293,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("continue-recruit/{recruitmentID}")]
-        public IActionResult ContinueRecruit([FromBody] List<int> ids, int recruitmentID)
+        public async Task<IActionResult> ContinueRecruit([FromBody] List<int> ids, int recruitmentID)
         {
             try
             {
-                var result = _recruitmentDetail.ContinueRecruit(ids, recruitmentID);
+                var result = await _recruitmentDetail.ContinueRecruit(ids, recruitmentID);
 
                 if (result.Success)
                 {
@@ -332,11 +332,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("remove-from-recruit/{recruitmentID}")]
-        public IActionResult RemoveFromRecruitment([FromBody] List<int> ids, int recruitmentID)
+        public async Task<IActionResult> RemoveFromRecruitment([FromBody] List<int> ids, int recruitmentID)
         {
             try
             {
-                var result = _recruitmentDetail.RemoveFromRecruitment(ids, recruitmentID);
+                var result = await _recruitmentDetail.RemoveFromRecruitment(ids, recruitmentID);
 
                 if (result.Success)
                 {
@@ -371,11 +371,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpPost("change-recruitment/{recruitmentID}/{choose}/{recruitmentRound}/{period}")]
-        public IActionResult ChangeRecruitment([FromBody] List<int> ids, int recruitmentID, int recruitmentRound, int choose,int period)
+        public async Task<IActionResult> ChangeRecruitment([FromBody] List<int> ids, int recruitmentID, int recruitmentRound, int choose,int period)
         {
             try
             {
-                var result = _recruitmentDetail.ChangeRecruitment(ids, recruitmentID, recruitmentRound, choose, period);
+                var result = await _recruitmentDetail.ChangeRecruitment(ids, recruitmentID, recruitmentRound, choose, period);
 
                 if (result.Success)
                 {

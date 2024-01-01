@@ -10,5 +10,6 @@ namespace FashionShopBL.CandidateBL
 {
     public interface ICandidateBL:IBaseBL<Candidate>
     {
+        public Task<ServiceResponse> GetByIDs(List<int> ids);
     }
 }

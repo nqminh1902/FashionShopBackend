@@ -10,5 +10,6 @@ namespace FashionShopDL.CandidateDL
 {
     public interface ICandidateDL: IBaseDL<Candidate>
     {
+        public Task<ServiceResponse> GetByIDs(List<int> ids);
     }
 }

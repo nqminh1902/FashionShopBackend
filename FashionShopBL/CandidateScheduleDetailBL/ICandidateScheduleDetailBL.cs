@@ -10,6 +10,6 @@ namespace FashionShopBL.CandidateScheduleDetailBL
 {
     public interface ICandidateScheduleDetailBL: IBaseBL<CandidateScheduleDetail>
     {
-        public ServiceResponse GetSheduleDetailByRecruitment(PagingRequest pagingRequest);
+        public Task<ServiceResponse> GetSheduleDetailByRecruitment(PagingRequest pagingRequest);
     }
 }

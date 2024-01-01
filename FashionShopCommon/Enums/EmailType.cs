@@ -13,5 +13,7 @@ namespace FashionShopCommon.Enums
         EmailEliminate = 3,
         EmailEmployee = 4,
         EmailCouncil = 5,
+        EmailTraning = 6,
+        EmailActive = 7
     }
 }

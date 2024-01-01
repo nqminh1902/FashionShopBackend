@@ -10,10 +10,10 @@ namespace FashionShopDL.ReportDL
 {
     public interface IReportDL
     {
-        public ServiceResponse GetCandidateByTime(int recruitmentID, DateTime startDate, DateTime endDate, int? periodID);
+        public Task<ServiceResponse> GetCandidateByTime(int recruitmentID, DateTime startDate, DateTime endDate, int? periodID);
 
-        public IEnumerable RecruitmentEfficiency(int recruitmentID, int periodID);
+        public Task<IEnumerable> RecruitmentEfficiency(int recruitmentID, int periodID);
 
-        public IEnumerable RecruitmentChannel(int recruitmentID, int periodID);
+        public Task<IEnumerable> RecruitmentChannel(int recruitmentID, int periodID);
     }
 }

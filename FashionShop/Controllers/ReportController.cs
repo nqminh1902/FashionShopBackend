@@ -16,11 +16,11 @@ namespace FashionShopAPI.Controllers
         }
 
         [HttpPost("getDataReportByRecruitment/{recruitmentID}/{periodID}")]
-        public IActionResult GetDataReportByRecruitment(int recruitmentID, int periodID)
+        public async Task<IActionResult> GetDataReportByRecruitment(int recruitmentID, int periodID)
         {
             try
             {
-                var response = _reportBL.GetDataReportByRecruitment(recruitmentID, periodID);
+                var response = await _reportBL.GetDataReportByRecruitment(recruitmentID, periodID);
                 // Thành công: Trả về dữ liệu cho FE
                 if (response.Success)
                 {
@@ -44,11 +44,11 @@ namespace FashionShopAPI.Controllers
         }
 
         [HttpPost("getCandidateByTime/{recruitmentID}")]
-        public IActionResult GetCandidateByTime([FromBody] Dictionary<string,object> request, int recruitmentID)
+        public async Task<IActionResult> GetCandidateByTime([FromBody] Dictionary<string,object> request, int recruitmentID)
         {
             try
             {
-                var response = _reportBL.GetCandidateByTime(request, recruitmentID);
+                var response = await _reportBL.GetCandidateByTime(request, recruitmentID);
 
                 // Xử lý trả về
 

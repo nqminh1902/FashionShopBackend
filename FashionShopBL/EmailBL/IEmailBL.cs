@@ -10,6 +10,6 @@ namespace FashionShopBL.EmailBL
 {
     public interface IEmailBL
     {
-        public ServiceResponse SendEmail(string receiverEmail, EmailType emailType, object model);
+        public Task<ServiceResponse> SendEmail(string receiverEmail, EmailType emailType, object model);
     }
 }

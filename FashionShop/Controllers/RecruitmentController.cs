@@ -2,6 +2,7 @@
 using FashionShopBL.RecruitmentRoundBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
+using FashionShopDL.RecruitmentDL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,11 +24,11 @@ namespace FashionShopAPI.Controllers
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
         [HttpGet("recruitment-broad/{recruitmentID}")]
-        public IActionResult getRecruitmentBroad(int recruitmentID)
+        public async Task<IActionResult> getRecruitmentBroad(int recruitmentID)
         {
             try
             {
-                var result = _recruitmentBL.getRecruitmentBroad(recruitmentID);
+                var result = await _recruitmentBL.getRecruitmentBroad(recruitmentID);
 
                 if (result.Success)
                 {
@@ -57,11 +58,11 @@ namespace FashionShopAPI.Controllers
         }
 
         [HttpPost("update-status/{recruitmentID}")]
-        public IActionResult updateRecruitmentStatus(int recruitmentID, [FromBody] int status)
+        public async Task<IActionResult> updateRecruitmentStatus(int recruitmentID, [FromBody] int status)
         {
             try
             {
-                var result = _recruitmentBL.updateRecruitmentStatus(recruitmentID, status);
+                var result = await _recruitmentBL.updateRecruitmentStatus(recruitmentID, status);
 
                 if (result.Success)
                 {

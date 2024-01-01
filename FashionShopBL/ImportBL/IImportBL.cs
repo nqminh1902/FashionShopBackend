@@ -11,5 +11,9 @@ namespace FashionShopBL.ImportBL
     public interface IImportBL
     {
         public ServiceResponse ValidateImportCandidate(IFormFile formFile);
+        public ServiceResponse ValidateEducationMajorImportData(IFormFile formFile);
+        public ServiceResponse ValidateUniversityImportData(IFormFile formFile);
+
+
     }
 }
