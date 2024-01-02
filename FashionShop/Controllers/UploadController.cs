@@ -6,6 +6,7 @@ using FashionShopCommon;
 using System.Security.Policy;
 using System;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionShopAPI.Controllers
 {
@@ -30,6 +31,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="files"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UploadImage(List<IFormFile> files)
         {

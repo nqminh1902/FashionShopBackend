@@ -1,6 +1,7 @@
 ﻿using FashionShopBL.CandidateScheduleDetailBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("get-by-recruitment")]
         public async Task<IActionResult> getTotalCandidateByRound(PagingRequest pagingRequest)
         {

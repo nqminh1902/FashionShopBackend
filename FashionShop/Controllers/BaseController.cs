@@ -34,6 +34,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <returns>Trả về danh sách bản ghi</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/11/2022)
+        [Authorize]
         [HttpGet]
         public IActionResult GetAllRecords()
         {
@@ -64,6 +65,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <returns>Trả về thông tin 1 bản ghi theo ID</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/11/2022)
+        [Authorize]
         [HttpGet("{recordID}")]
         public async Task<IActionResult> GetRecordByID([FromRoute] int recordID)
         {
@@ -102,6 +104,7 @@ namespace FashionShopAPI.Controllers
         /// <param name="recordID">ID của bản ghi muốn xóa</param>
         /// <returns>ID của bản ghi vừa xóa</returns>
         /// CreatedBy: Nguyễn Quang Minh (03/3/2022)
+        [Authorize]
         [HttpDelete("{recordID}")]
         public async Task<IActionResult> DeleteRecord([FromRoute] int recordID)
         {
@@ -139,6 +142,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>ca
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("deleteBulk")]
         public async Task<IActionResult> DeleteMultipleEmployee([FromBody] List<int> ids)
         {
@@ -179,6 +183,7 @@ namespace FashionShopAPI.Controllers
         /// <param name="record">Chi tiết bản ghi</param>
         /// <returns>ID bản ghi thêm thành công</returns>
         /// CreateBy: Nguyễn Quang Minh(25/11/2022)
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> InsertRecord([FromBody] T record)
         {
@@ -220,6 +225,7 @@ namespace FashionShopAPI.Controllers
         /// <param name="record">Chi tiết bản ghi</param>
         /// <returns>ID bản ghi thêm thành công</returns>
         /// CreateBy: Nguyễn Quang Minh(25/11/2022)
+        [Authorize]
         [HttpPost("insertBulk")]
         public async Task<IActionResult> InsertMultipleRecord([FromBody] List<T> records)
         {
@@ -262,6 +268,7 @@ namespace FashionShopAPI.Controllers
         /// <param name="record">Chi tiết bản ghi</param>
         /// <returns>ID của bản ghi vừa cập nhập</returns>
         /// CreateBy: Nguyễn Quang Minh (25/11/2022)
+        [Authorize]
         [HttpPut("{recordID}")]
         public async Task<IActionResult> UpdateRecord([FromRoute] int recordID, [FromBody] T record)
         {
@@ -305,6 +312,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="pagingRequest"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("paging")]
         public async Task<IActionResult> GetPaging([FromBody] PagingRequest pagingRequest)
         {

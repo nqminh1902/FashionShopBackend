@@ -6,6 +6,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml;
 using System.Collections.Generic;
 using FashionShopBL.CandidateBL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionShopAPI.Controllers
 {
@@ -21,6 +22,7 @@ namespace FashionShopAPI.Controllers
             _candidateBL = candidateBL;
         }
 
+        [Authorize]
         [HttpPost("export-candidate")]
         public IActionResult ExportCandidate([FromBody] List<int> ids)
         {

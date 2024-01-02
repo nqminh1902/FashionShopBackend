@@ -1,5 +1,6 @@
 ﻿using FashionShopBL.ImportBL;
 using FashionShopCommon;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace FashionShopAPI.Controllers
             _importBL = importBL;
         }
 
+        [Authorize]
         [HttpPost("validate-candidate-import")]
         public IActionResult ValidateCandidateImportData(IFormFile file)
         {
@@ -43,6 +45,7 @@ namespace FashionShopAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("validate-education-major-import")]
         public IActionResult ValidateEducationMajorImportData(IFormFile file)
         {
@@ -71,6 +74,7 @@ namespace FashionShopAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("validate-university-import")]
         public IActionResult ValidateUniversityImportData(IFormFile file)
         {

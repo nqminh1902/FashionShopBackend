@@ -1,6 +1,7 @@
 ﻿using FashionShopBL.PermissionBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace FashionShopAPI.Controllers
             _permissionBL = permissionBL;  
         }
 
+        [Authorize]
         [HttpGet("getByRoleID/{roleID}")]
         public async Task<IActionResult> GetByRoleID(int roleID)
         {

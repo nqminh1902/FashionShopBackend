@@ -61,21 +61,5 @@ namespace FashionShopAPI.Controllers
             }
         }
 
-        //private string Generate(User user)
-        //{
-        //    var sercurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-        //    var credentials = new SigningCredentials(sercurityKey, SecurityAlgorithms.HmacSha256);
-
-        //    var claims = new[]
-        //    {
-        //        new Claim(ClaimTypes.NameIdentifier, user.UserName),
-        //        new Claim(ClaimTypes.Email, user.Email),
-        //        new Claim(ClaimTypes.Role, user.RoleName)
-        //    };
-
-        //    var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.Now.AddMinutes(1440), signingCredentials: credentials);
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
     }
 }

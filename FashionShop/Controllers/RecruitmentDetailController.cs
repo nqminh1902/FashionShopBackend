@@ -1,6 +1,7 @@
 ﻿using FashionShopBL.RecruitmentDetailBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpGet("getTotalByRound")]
         public async Task<IActionResult> getTotalCandidateByRound(int recruitmentID, int status, int period)
         {
@@ -58,6 +60,7 @@ namespace FashionShopAPI.Controllers
         /// <summary>
         /// Chuyển vòng tuyển dụng
         /// </summary>
+        [Authorize]
         [HttpPost("changeRound")]
         public async Task<IActionResult> ChangeRound([FromBody] ChangeRoundDTO keyValuePairs)
         {
@@ -97,6 +100,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpGet("get-eliminate")]
         public async Task<IActionResult> GetEliminate()
         {
@@ -136,6 +140,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("eliminate/{recordID}/{recruitmentID}/{isSendMail}")]
         public async Task<IActionResult> EliminateCandiadte(int recordID, [FromBody] List<int> ids, int recruitmentID, bool isSendMail)
         {
@@ -175,6 +180,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("employee/{recordID}/{recruitmentID}")]
         public async Task<IActionResult> TransferToEmployee(int recordID, [FromBody] List<int> ids, int recruitmentID)
         {
@@ -214,6 +220,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpGet("get-by-canidate-id/{id}")]
         public async Task<IActionResult> getByCandidateID(int id)
         {
@@ -253,6 +260,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("revoke-employee/{recruitmentID}")]
         public async Task<IActionResult> RevokeEmployee([FromBody]List<int> ids, int recruitmentID)
         {
@@ -292,6 +300,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("continue-recruit/{recruitmentID}")]
         public async Task<IActionResult> ContinueRecruit([FromBody] List<int> ids, int recruitmentID)
         {
@@ -331,6 +340,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("remove-from-recruit/{recruitmentID}")]
         public async Task<IActionResult> RemoveFromRecruitment([FromBody] List<int> ids, int recruitmentID)
         {
@@ -370,6 +380,7 @@ namespace FashionShopAPI.Controllers
         /// </summary>
         /// <param name="">danh sách ID đơn</param>
         /// <returns>Danh sách đơn đã xóa</returns>
+        [Authorize]
         [HttpPost("change-recruitment/{recruitmentID}/{choose}/{recruitmentRound}/{period}")]
         public async Task<IActionResult> ChangeRecruitment([FromBody] List<int> ids, int recruitmentID, int recruitmentRound, int choose,int period)
         {

@@ -1,5 +1,6 @@
 ﻿using FashionShopBL.Report;
 using FashionShopCommon;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace FashionShopAPI.Controllers
             _reportBL = reportBL;
         }
 
+        [Authorize]
         [HttpPost("getDataReportByRecruitment/{recruitmentID}/{periodID}")]
         public async Task<IActionResult> GetDataReportByRecruitment(int recruitmentID, int periodID)
         {
@@ -43,6 +45,7 @@ namespace FashionShopAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("getCandidateByTime/{recruitmentID}")]
         public async Task<IActionResult> GetCandidateByTime([FromBody] Dictionary<string,object> request, int recruitmentID)
         {

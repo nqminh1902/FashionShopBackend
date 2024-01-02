@@ -21,7 +21,7 @@ namespace FashionShopDL.PermissionDL
             // Khời tạo kết nối tới DB MySQL
             using (var mysqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                var res = await mysqlConnection.QueryAsync<List<Permission>>(sql);
+                var res = await mysqlConnection.QueryAsync<Permission>(sql);
 
                 if (res != null)
                 {

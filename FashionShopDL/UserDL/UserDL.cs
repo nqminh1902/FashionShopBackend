@@ -16,18 +16,13 @@ namespace FashionShopDL.UserDL
         public User Login(User user)
         {
             // Chuẩn bị câu lệnh SQL
-            string storeProcedureName = String.Format(Procedure.GET_User_Login);
-
-            var parameters = new DynamicParameters();
-            parameters.Add($"v_Username", user.UserName);
-            parameters.Add($"v_Password", user.Password);
-
+            string sql = "SELECT * FROM user u WHERE u.UserName = '{0}' AND u.Password = '{1}';";
 
             // Khời tạo kết nối tới DB MySQL
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiên gọi vào DB
-                var record = mySqlConnection.QueryFirstOrDefault<User>(storeProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var record = mySqlConnection.QueryFirstOrDefault<User>(string.Format(sql, user.UserName, user.Password));
                 // Xử lý trả về
 
                 // Thành công: Trả về dữ liệu cho FE

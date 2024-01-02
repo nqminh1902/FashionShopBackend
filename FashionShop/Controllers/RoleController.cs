@@ -3,6 +3,7 @@ using FashionShopBL.RoleBL;
 using FashionShopCommon;
 using FashionShopCommon.Entities;
 using FashionShopDL.RoleDL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace FashionShopAPI.Controllers
             _roleBL = roleBL;
         }
 
+        [Authorize]
         [HttpPost("save")]
         public async Task<IActionResult> SaveRole([FromBody]Role role)
         {
